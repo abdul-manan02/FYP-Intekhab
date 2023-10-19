@@ -1,8 +1,14 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { PartyDashboard } from './views/party/PartyDashboard';
+import { Landing } from './views/landing/Landing';
 function App() {
     return (
-        <>
-            <h1 className="text-5xl text-center text-red-400">Hello Apes</h1>
-        </>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/partydashboard" element={<PartyDashboard />} />
+            </Routes>
+        </Router>
     );
 }
 
