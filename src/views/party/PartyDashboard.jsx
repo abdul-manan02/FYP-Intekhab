@@ -10,7 +10,7 @@ import { Results } from './result/Results';
 import { Profile } from './profile/Profile';
 
 export const PartyDashboard = () => {
-    const [choice, setChoice] = useState('');
+    const [choice, setChoice] = useState('candidateEligibility');
 
     return (
         <div>
@@ -22,7 +22,9 @@ export const PartyDashboard = () => {
                             onClick={() => {
                                 setChoice('candidateEligibility');
                             }}
-                            className="flex gap-2 text-[1.125rem] py-[1.62rem] justify-center  w-full transition delay-75 hover:bg-hoverPurple"
+                            className={`flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'candidateEligibility' ? 'bg-hoverPurple' : null
+                            }`}
                         >
                             <img src={employee} alt="" /> Candidate Eligibility
                         </button>
@@ -30,7 +32,9 @@ export const PartyDashboard = () => {
                             onClick={() => {
                                 setChoice('manageMembers');
                             }}
-                            className="flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple"
+                            className={`flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'manageMembers' ? 'bg-hoverPurple' : null
+                            }`}
                         >
                             <img src={team} alt="" /> Manage Members
                         </button>
@@ -38,7 +42,9 @@ export const PartyDashboard = () => {
                             onClick={() => {
                                 setChoice('results');
                             }}
-                            className="flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple"
+                            className={`flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'results' ? 'bg-hoverPurple' : null
+                            }`}
                         >
                             <img src={checklist} alt="" /> Results
                         </button>
@@ -46,14 +52,16 @@ export const PartyDashboard = () => {
                             onClick={() => {
                                 setChoice('profile');
                             }}
-                            className="flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple"
+                            className={`flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'profile' ? 'bg-hoverPurple' : null
+                            }`}
                         >
                             <img src={user} alt="" /> Profile
                         </button>
                     </div>
                 </div>
 
-                <div className="w-[80%] h-screen bg-themeGray">
+                <div className="w-[80%] h-fit bg-themeGray">
                     {choice === 'candidateEligibility' ? <CandidateEligibility /> : null}
                     {choice === 'manageMembers' ? <ManageMembers /> : null}
                     {choice === 'results' ? <Results /> : null}
