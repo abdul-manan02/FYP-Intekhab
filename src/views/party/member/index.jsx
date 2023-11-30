@@ -33,7 +33,7 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-export const ManageMembers = () => {
+const ManageMembers = () => {
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [choice, setChoice] = useState('incoming');
@@ -136,3 +136,5 @@ export const ManageMembers = () => {
         </div>
     );
 };
+
+export default ManageMembers;

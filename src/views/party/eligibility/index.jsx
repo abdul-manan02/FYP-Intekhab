@@ -32,7 +32,7 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
     },
 }));
 
-export const CandidateEligibility = () => {
+const CandidateEligibility = () => {
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -125,3 +125,5 @@ export const CandidateEligibility = () => {
         </div>
     );
 };
+
+export default CandidateEligibility
