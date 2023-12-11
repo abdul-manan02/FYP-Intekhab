@@ -7,11 +7,12 @@ import { useState } from 'react';
 
 import Profile from './profile';
 import CandidateEligibility from './eligibility';
-import Results from './result';
+import Results from '../result';
 import ManageMembers from './member';
-// import logo from '../assets/icons/logo.png';
 import logo from '../../assets/icons/logo.png';
-export const PartyDashboard = () => {
+
+
+const PartyDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
 
     return (
@@ -31,7 +32,7 @@ export const PartyDashboard = () => {
                                 choice === 'candidateEligibility' ? 'bg-hoverPurple' : null
                             }`}
                         >
-                            <img src={employee} alt="" /> Candidate Eligibility
+                            <img src={employee} alt="" /> Candidate
                         </button>
                         <button
                             onClick={() => {
@@ -41,7 +42,7 @@ export const PartyDashboard = () => {
                                 choice === 'manageMembers' ? 'bg-hoverPurple' : null
                             }`}
                         >
-                            <img src={team} alt="" /> Manage Members
+                            <img src={team} alt="" /> Member
                         </button>
                         <button
                             onClick={() => {
@@ -92,3 +93,5 @@ export const PartyDashboard = () => {
         </div>
     );
 };
+
+export default PartyDashboard;

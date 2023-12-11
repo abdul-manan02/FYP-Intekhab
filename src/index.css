@@ -1,8 +1,14 @@
+@import '@fontsource/poppins';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: 'poppins', sans-serif;
+}
+
+/* Define custom CSS variables if needed */
 :root {
     --themePurple: #541554;
-    /* --backgroundPurple: #91b919; */
 }

@@ -98,11 +98,11 @@ const ManageMembers = () => {
     return (
         <div>
             <DeletePopup opened={deletePopup} setOpened={setDeletePopup} />
-            <h1 className="rounded-tl-3xl rounded-br-3xl mx-[1rem] my-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
+            <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Managing Members
             </h1>
 
-            <div className="p-[1rem] flex gap-2">
+            <div className="p-[0.5rem] flex gap-2">
                 <button
                     // className={`bg-themePurple text-white font-semibold px-[2.25rem] py-[1.25rem] border border-themePurple rounded-[0.4375rem] transition delay-75
                     // hover:bg-white hover:text-themePurple hover:border-white ${
@@ -121,12 +121,12 @@ const ManageMembers = () => {
                 </button>
             </div>
 
-            <div className="bg-themePurple p-[1rem] mx-[1rem] text-white text-[2.25rem] font-[500] flex justify-center">
+            <div className="bg-themePurple p-[0.5rem] m-[0.5rem] text-white text-[2.25rem] font-[500] flex justify-center">
                 {choice === 'incoming' ? <p>Incoming</p> : null}
                 {choice === 'members' ? <p>Members</p> : null}
             </div>
 
-            <div style={{ margin: '1rem' }}>
+            <div style={{ marginLeft: '0.5rem', marginRight: '0.5rem', marginTop: '1rem' }}>
                 <StripedDataGrid
                     rows={rows}
                     columns={columns}

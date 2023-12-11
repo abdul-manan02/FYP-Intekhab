@@ -1,36 +1,8 @@
-import { alpha, styled } from '@mui/material/styles';
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton, Snackbar, Alert } from '@mui/material';
 import { useState } from 'react';
-
-const ODD_OPACITY = 0.2;
-
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-    [`& .${gridClasses.row}.even`]: {
-        backgroundColor: 'white',
-        '&:hover, &.Mui-hovered': {
-            backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-            '@media (hover: none)': {
-                backgroundColor: 'transparent',
-            },
-        },
-        '&.Mui-selected': {
-            backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY + theme.palette.action.selectedOpacity),
-            '&:hover, &.Mui-hovered': {
-                backgroundColor: alpha(
-                    theme.palette.primary.main,
-                    ODD_OPACITY + theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity
-                ),
-                // Reset on touch devices, it doesn't add specificity
-                '@media (hover: none)': {
-                    backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY + theme.palette.action.selectedOpacity),
-                },
-            },
-        },
-    },
-}));
+import { StripedDataGrid } from '../../../components/StripedDataGrid';
 
 const CandidateEligibility = () => {
     const [showSnackbar, setShowSnackbar] = useState(false);
@@ -101,10 +73,10 @@ const CandidateEligibility = () => {
 
     return (
         <div>
-            <h1 className="rounded-tl-3xl rounded-br-3xl mx-[1rem] my-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
+            <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Evaluate Candidate Eligibility
             </h1>
-            <div style={{ margin: '1rem' }}>
+            <div style={{ margin: '0.5rem' }}>
                 <StripedDataGrid
                     rows={rows}
                     columns={columns}
@@ -126,4 +98,4 @@ const CandidateEligibility = () => {
     );
 };
 
-export default CandidateEligibility
+export default CandidateEligibility;

@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 
-const MyTextField = (isDisabled) => {
-    return <TextField fullWidth disabled={isDisabled} />;
+const MyTextField = () => {
+    return <TextField fullWidth />;
 };
 
 export default MyTextField;
