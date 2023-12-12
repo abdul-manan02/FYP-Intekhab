@@ -2,9 +2,9 @@
 export default async function fetcher(url, method, payload) {
     const options = {
         method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        // headers: {
+        //     'Content-Type': 'application/json',
+        // },
     };
 
     // if it's a GET request, we don't need the body

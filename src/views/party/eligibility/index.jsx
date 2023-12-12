@@ -1,7 +1,7 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton, Snackbar, Alert } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StripedDataGrid } from '../../../components/StripedDataGrid';
 
 const CandidateEligibility = () => {
