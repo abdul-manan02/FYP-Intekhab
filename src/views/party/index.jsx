@@ -4,13 +4,11 @@ import checklist from '../../assets/icons/checklist.png';
 import team from '../../assets/icons/team.png';
 import user from '../../assets/icons/user.png';
 import { useState } from 'react';
-
 import Profile from './profile';
 import CandidateEligibility from './eligibility';
 import Results from '../result';
 import ManageMembers from './member';
 import logo from '../../assets/icons/logo.png';
-
 
 const PartyDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');

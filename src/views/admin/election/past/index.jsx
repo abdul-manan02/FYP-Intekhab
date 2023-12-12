@@ -40,7 +40,7 @@ const PastElections = () => {
     ];
 
     return (
-        <div style={{ margin: '0.5rem' }}>
+        <div className='mx-[0.5rem] mt-8'>
             <StripedDataGrid
                 rows={rows}
                 columns={columns}

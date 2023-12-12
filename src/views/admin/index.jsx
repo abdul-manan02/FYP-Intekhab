@@ -6,6 +6,9 @@ import { IoPerson } from 'react-icons/io5';
 import logo from '../../assets/icons/logo.png';
 import { useState } from 'react';
 import ManageElection from './election';
+import CandidateApproval from './candidate';
+import PartyApproval from './party';
+import Results from '../result';
 
 const AdminDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
@@ -71,28 +74,14 @@ const AdminDashboard = () => {
                             </p>
                             <p> Results</p>
                         </button>
-                        <button
-                            onClick={() => {
-                                setChoice('constituency');
-                            }}
-                            className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
-                                choice === 'constituency' ? 'bg-hoverPurple' : null
-                            }`}
-                        >
-                            <p>
-                                <IoPerson />
-                            </p>
-                            <p>Manage Constituency</p>
-                        </button>
                     </div>
                 </div>
 
                 <div className="w-full h-screen bg-themeGray">
-                    {choice === 'party' ? <div className="ml-[20rem]">{/* <CandidateEligibility /> */}</div> : null}
-                    {choice === 'candidate' ? <div className="ml-[20rem]">{/* <ManageMembers /> */}</div> : null}
+                    {choice === 'party' ? <div className="ml-[20rem]">{<PartyApproval />}</div> : null}
+                    {choice === 'candidate' ? <div className="ml-[20rem]">{<CandidateApproval />}</div> : null}
                     {choice === 'election' ? <div className="ml-[20rem]">{<ManageElection />}</div> : null}
-                    {choice === 'result' ? <div className="ml-[20rem]">{/* <Profile /> */}</div> : null}
-                    {choice === 'constituency' ? <div className="ml-[20rem]">{/* <Profile /> */}</div> : null}
+                    {choice === 'result' ? <div className="ml-[20rem]">{<Results />}</div> : null}
                 </div>
             </div>
         </div>

@@ -2,8 +2,12 @@ import * as React from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { constituencyAtom } from '../../../store/admin';
+import { useAtom } from 'jotai';
 
-export default function Dropdown({ data }) {
+export default function ConstituencyDropDown({ data }) {
+    const [selectedConstituency, setSelectedConstituency] = useAtom(constituencyAtom);
+
     return (
         <Select
             displayEmpty
@@ -19,9 +23,9 @@ export default function Dropdown({ data }) {
                     transform: 'rotate(-180deg)',
                 },
             }}
-            value={''}
+            value={selectedConstituency}
             onChange={(e) => {
-                console.log('selected', e.target.value);
+                setSelectedConstituency(e.target.value);
             }}
         >
             <MenuItem disabled value="">

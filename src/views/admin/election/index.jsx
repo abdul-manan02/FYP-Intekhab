@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import PastElections from './past';
+import CreateElection from './create';
+import CurrentElections from './current';
 
 const ManageElection = () => {
     const [choice, setChoice] = useState('past');
@@ -41,6 +43,8 @@ const ManageElection = () => {
             </div>
 
             {choice === 'past' ? <PastElections /> : null}
+            {choice === 'create' ? <CreateElection /> : null}
+            {choice === 'current' ? <CurrentElections /> : null}
         </>
     );
 };

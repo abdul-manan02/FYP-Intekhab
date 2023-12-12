@@ -2,8 +2,12 @@ import * as React from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { electionAtom } from '../../../store/admin';
+import { useAtom } from 'jotai';
 
-export default function Dropdown({ data }) {
+export default function ElectionDropDown({ data }) {
+    const [selectedElection, setSelectedElection] = useAtom(electionAtom);
+
     return (
         <Select
             displayEmpty
@@ -19,9 +23,9 @@ export default function Dropdown({ data }) {
                     transform: 'rotate(-180deg)',
                 },
             }}
-            value={''}
+            value={selectedElection}
             onChange={(e) => {
-                console.log('selected', e.target.value);
+                setSelectedElection(e.target.value);
             }}
         >
             <MenuItem disabled value="">
