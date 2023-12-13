@@ -37,7 +37,7 @@ const PartyApproval = () => {
 
     useEffect(() => {
         fetchRequests();
-    }, []);
+    }, [opened]);
 
     const handleSelectedRequest = (id) => {
         const filteredRequest = requests.find((item) => item._id.toString() === id.toString());

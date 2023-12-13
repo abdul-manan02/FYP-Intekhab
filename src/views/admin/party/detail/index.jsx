@@ -18,7 +18,7 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
                 status: 'Accepted',
             };
             const response = await acceptRequest(selectedPartyRequest._id, requestBody);
-            console.log(response);
+            handleClose()
         } catch (error) {
             console.log(error.message);
         }
@@ -50,6 +50,8 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
                 <p>{selectedPartyRequest.leaderCNIC}</p>
                 <p className="font-bold">Party Name:</p>
                 <p>{selectedPartyRequest.name}</p>
+                <p className="font-bold">Status:</p>
+                <p>{selectedPartyRequest.status}</p>
                 <p className="font-bold">Submit Time</p>
                 <p>{convertToReadableTime(selectedPartyRequest.submitTime)}</p>
                 <p className="font-bold">Document</p>

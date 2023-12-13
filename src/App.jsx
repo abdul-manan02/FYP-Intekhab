@@ -8,6 +8,7 @@ import AdminProtected from './routes/AdminProtected';
 import VoterCandidateLogin from './views/auth/voter-candidate/login';
 import PartyLogin from './views/auth/party/login';
 import PartyRegister from './views/auth/party/register';
+import VoterRegister from './views/auth/voter-candidate/register';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/voter/login" element={<VoterCandidateLogin />} />
                 <Route path="/party/login" element={<PartyLogin />} />
                 <Route path="/party/register" element={<PartyRegister />} />
+                <Route path="/voter/register" element={<VoterRegister />} />
             </Routes>
         </Router>
     );
