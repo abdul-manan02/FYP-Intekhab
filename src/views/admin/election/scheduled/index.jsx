@@ -1,26 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import { getCreatedElections } from '../../../../services/admin/electionService';
+import { StripedDataGrid } from '../../../../components/StripedDataGrid';
+import { scheduledDetailAtom } from '../../../../store/admin';
+import { useAtom } from 'jotai';
 import { Button } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
-import { StripedDataGrid } from '../../../../components/StripedDataGrid';
-import { getStartedElections } from '../../../../services/admin/electionService';
-import { useState, useEffect } from 'react';
-import { electionDetailAtom } from '../../../../store/admin';
-import { useAtom } from 'jotai';
-import CurrentElectionDetail from './detail';
+import ScheduledElectionDetail from './detail';
 
-const CurrentElections = () => {
+const ScheduledElection = () => {
     const [opened, setOpened] = useState(false);
 
     const [requests, setRequests] = useState([]);
 
     const [rows, setRows] = useState([]);
 
-    const [, setSelectedElectionDetail] = useAtom(electionDetailAtom);
+    const [, setScheduledSelected] = useAtom(scheduledDetailAtom);
 
     const fetchRequests = async () => {
         try {
-            const response = await getStartedElections();
-            setRequests(response);
-            console.log(response);
+            const response = await getCreatedElections();
+            if (response && response.length > 0) {
+                setRequests(response);
+            }
         } catch (error) {
             console.log(error.message);
         }
@@ -32,7 +33,7 @@ const CurrentElections = () => {
 
     const handleSelectedRequest = (id) => {
         const filteredRequest = requests.find((item) => item._id.toString() === id.toString());
-        setSelectedElectionDetail(filteredRequest);
+        setScheduledSelected(filteredRequest);
         setOpened(true);
     };
 
@@ -40,7 +41,7 @@ const CurrentElections = () => {
         const data = requests.map((request) => {
             return {
                 id: request._id,
-                startTime: convertToReadableTime(request.electionTime),
+                startTime: 'Not started',
                 type: request.electionType,
             };
         });
@@ -48,26 +49,10 @@ const CurrentElections = () => {
         setRows(data);
     };
 
-    const convertToReadableTime = (submitTime) => {
-        const date = new Date(submitTime);
-
-        // Options for formatting the date and time
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZoneName: 'short',
-        };
-
-        // Format the date and time
-        return date.toLocaleString(undefined, options);
-    };
-
     useEffect(() => {
-        prepareRows(requests);
+        if (requests && requests.length > 0) {
+            prepareRows(requests);
+        }
     }, [requests]);
 
     const columns = [
@@ -93,8 +78,8 @@ const CurrentElections = () => {
     ];
 
     return (
-        <div className="mx-[0.5rem] mt-8">
-            <CurrentElectionDetail opened={opened} setOpened={setOpened} />
+        <div className="m-2 bg-white">
+            <ScheduledElectionDetail opened={opened} setOpened={setOpened} />
             <StripedDataGrid
                 rows={rows}
                 columns={columns}
@@ -104,4 +89,4 @@ const CurrentElections = () => {
     );
 };
 
-export default CurrentElections;
+export default ScheduledElection;

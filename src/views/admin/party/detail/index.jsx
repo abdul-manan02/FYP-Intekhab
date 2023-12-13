@@ -57,7 +57,7 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleAccept}>Approve</Button>
+                <Button variant='contained' onClick={handleAccept}>Approve</Button>
             </DialogActions>
         </Dialog>
     );

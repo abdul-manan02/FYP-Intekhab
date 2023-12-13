@@ -12,9 +12,10 @@ const CreateElection = () => {
     const [loading, setLoading] = useState(false);
     const [constituencyData, setConstituencyData] = useState([]);
     const [filteredConstituencyData, setFilteredConstituencyData] = useState([]);
-    const [electionName, setElectionName] = useState('');
     const [selectedConstituency] = useAtom(constituencyAtom);
     const [selectedElection] = useAtom(electionAtom);
+
+    const adminToken = localStorage.getItem("adminToken")
 
     const fetchConstituencies = async () => {
         try {
@@ -50,6 +51,7 @@ const CreateElection = () => {
             } else if (selectedElection === 'General Elections') {
                 const requestBody = {
                     electionType: selectedElection,
+                    token: adminToken
                 };
                 const response = await createElection(requestBody);
                 console.log('general', response);
@@ -75,17 +77,6 @@ const CreateElection = () => {
                     </InputLabel>
                     <ElectionDropDown data={electionTypes} />
                 </div>
-                {/* <div className="w-1/2">
-                    <InputLabel
-                        sx={{
-                            fontWeight: 'bold',
-                            fontSize: '1.5rem',
-                        }}
-                    >
-                        Election Name
-                    </InputLabel>
-                    <TextField fullWidth value={electionName} onChange={(e) => setElectionName(e.target.value)} />
-                </div> */}
             </div>
 
             {filteredConstituencyData.length > 0 && selectedElection !== 'General Elections' ? (

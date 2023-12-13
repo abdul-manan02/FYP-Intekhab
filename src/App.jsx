@@ -1,9 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PartyDashboard from './views/party';
-import CandidateDashboard from './views/candidate';
+import CandidateDashboard from './views/voterCandidate';
 import { Landing } from './views/landing/Landing';
-import Login from './views/login';
+import AdminLogin from './views/auth';
 import AdminDashboard from './views/admin';
+import AdminProtected from './routes/AdminProtected';
+import VoterCandidateLogin from './views/auth/voter-candidate/login';
+import PartyLogin from './views/auth/party/login';
+import PartyRegister from './views/auth/party/register';
 
 function App() {
     return (
@@ -12,8 +16,11 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/party/dashboard" element={<PartyDashboard />} />
                 <Route path="/voter-candidate/dashboard" element={<CandidateDashboard />} />
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/admin/dashboard" element={<AdminProtected element={<AdminDashboard />} />} />
+                <Route path="/login" element={<AdminLogin />} />
+                <Route path="/voter/login" element={<VoterCandidateLogin />} />
+                <Route path="/party/login" element={<PartyLogin />} />
+                <Route path="/party/register" element={<PartyRegister />} />
             </Routes>
         </Router>
     );

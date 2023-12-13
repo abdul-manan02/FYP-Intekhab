@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
-import { electionDetailAtom } from '../../../../../store/admin';
+import { scheduledDetailAtom } from '../../../../../store/admin';
 
-const CurrentElectionDetail = ({ opened, setOpened }) => {
-    const [selectionElectionDetail] = useAtom(electionDetailAtom);
+const ScheduledElectionDetail = ({ opened, setOpened }) => {
+    const [selectionElectionDetail] = useAtom(scheduledDetailAtom);
 
     const handleClose = () => {
         setOpened(false);
@@ -37,28 +37,28 @@ const CurrentElectionDetail = ({ opened, setOpened }) => {
                         <p className="font-bold">Election type:</p>
                         <p>{selectionElectionDetail.electionType}</p>
                         <p className="font-bold">Constituencies:</p>
-                        <p>
+                        <div>
                             {selectionElectionDetail.constituencies && selectionElectionDetail.constituencies.length > 0
-                                ? selectionElectionDetail.constituencies.map((item) => <p>{item}</p>)
+                                ? selectionElectionDetail.constituencies.map((item, index) => <p key={index}>{item}</p>)
                                 : null}
-                        </p>
+                        </div>
                         <p className="font-bold">Start time:</p>
                         <p>{convertToReadableTime(selectionElectionDetail.electionTime)}</p>
                         <p className="font-bold">Candidates:</p>
-                        <p>
+                        <div>
                             {selectionElectionDetail.candidates && selectionElectionDetail.candidates.length > 0
-                                ? selectionElectionDetail.candidates.map((item) => <p>{item.candidateId}</p>)
+                                ? selectionElectionDetail.candidates.map((item, index) => <p key={index}>{item.candidateId}</p>)
                                 : null}
-                        </p>
+                        </div>
                     </>
                 )}
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>
-                {/* <Button onClick={handleClose}>Approve</Button> */}
+                <Button variant='contained' onClick={handleClose}>Start Election</Button>
             </DialogActions>
         </Dialog>
     );
 };
 
-export default CurrentElectionDetail;
+export default ScheduledElectionDetail;

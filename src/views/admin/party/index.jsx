@@ -29,6 +29,7 @@ const PartyApproval = () => {
         try {
             const response = await getRequests();
             setRequests(response);
+            console.log(response)
         } catch (error) {
             console.log(error.message);
         }
