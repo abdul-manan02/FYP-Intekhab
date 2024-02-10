@@ -64,7 +64,7 @@ const CreateElection = () => {
     };
 
     return (
-        <div className=" px-16 py-8 mx-[0.5rem] mt-8 bg-white">
+        <div className=" px-16 py-8 mx-[0.5rem] mt-8 bg-white rounded-xl">
             <div className="flex gap-8">
                 <div className="w-full">
                     <InputLabel

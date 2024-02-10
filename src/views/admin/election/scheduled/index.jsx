@@ -6,6 +6,7 @@ import { useAtom } from 'jotai';
 import { Button } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import ScheduledElectionDetail from './detail';
+import Loader from '../../../../components/Loader';
 
 const ScheduledElection = () => {
     const [opened, setOpened] = useState(false);
@@ -38,13 +39,16 @@ const ScheduledElection = () => {
     };
 
     const prepareRows = (requests) => {
-        const data = requests.map((request) => {
-            return {
-                id: request._id,
-                startTime: 'Not started',
-                type: request.electionType,
-            };
-        });
+        const data =
+            requests &&
+            requests.length > 0 &&
+            requests.map((request) => {
+                return {
+                    id: request._id,
+                    startTime: 'Not started',
+                    type: request.electionType,
+                };
+            });
 
         setRows(data);
     };
@@ -78,13 +82,17 @@ const ScheduledElection = () => {
     ];
 
     return (
-        <div className="m-2 bg-white">
+        <div className="mt-8 mx-[0.5rem]">
             <ScheduledElectionDetail opened={opened} setOpened={setOpened} />
-            <StripedDataGrid
-                rows={rows}
-                columns={columns}
-                getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
-            />
+            {rows && rows.length > 0 ? (
+                <StripedDataGrid
+                    rows={rows}
+                    columns={columns}
+                    getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
+                />
+            ) : (
+                <Loader className={'mt-20'} />
+            )}
         </div>
     );
 };

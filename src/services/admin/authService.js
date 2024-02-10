@@ -11,3 +11,7 @@ export async function adminLogin(payload) {
         return error;
     }
 }
+
+export async function adminLogout() {
+    localStorage.removeItem('admin');
+}

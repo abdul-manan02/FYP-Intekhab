@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { electionDetailAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
 import CurrentElectionDetail from './detail';
+import Loader from '../../../../components/Loader';
 
 const CurrentElections = () => {
     const [opened, setOpened] = useState(false);
@@ -37,13 +38,16 @@ const CurrentElections = () => {
     };
 
     const prepareRows = (requests) => {
-        const data = requests.map((request) => {
-            return {
-                id: request._id,
-                startTime: convertToReadableTime(request.electionTime),
-                type: request.electionType,
-            };
-        });
+        const data =
+            requests &&
+            requests.length > 0 &&
+            requests.map((request) => {
+                return {
+                    id: request._id,
+                    startTime: convertToReadableTime(request.electionTime),
+                    type: request.electionType,
+                };
+            });
 
         setRows(data);
     };
@@ -95,11 +99,15 @@ const CurrentElections = () => {
     return (
         <div className="mx-[0.5rem] mt-8">
             <CurrentElectionDetail opened={opened} setOpened={setOpened} />
-            <StripedDataGrid
-                rows={rows}
-                columns={columns}
-                getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
-            />
+            {rows && rows.length > 0 ? (
+                <StripedDataGrid
+                    rows={rows}
+                    columns={columns}
+                    getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
+                />
+            ) : (
+                <Loader className={'mt-20'} />
+            )}
         </div>
     );
 };

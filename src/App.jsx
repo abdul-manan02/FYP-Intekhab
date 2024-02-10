@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PartyDashboard from './views/party';
 import CandidateDashboard from './views/voterCandidate';
 import { Landing } from './views/landing/Landing';
-import AdminLogin from './views/auth';
+import AdminLogin from './views/auth/admin';
 import AdminDashboard from './views/admin';
 import AdminProtected from './routes/AdminProtected';
 import VoterCandidateLogin from './views/auth/voter-candidate/login';

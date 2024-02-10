@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import { adminLogin } from '../../services/admin/loginService';
+import { adminLogin } from '../../../services/admin/authService';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
@@ -24,8 +24,8 @@ const AdminLogin = () => {
 
             const response = await adminLogin(requestBody);
 
-            if (response.token) {
-                localStorage.setItem('adminToken', response.token);
+            if (response.result) {
+                localStorage.setItem('admin', JSON.stringify(response.result));
                 navigate('/admin/dashboard');
             }
         } catch (error) {
