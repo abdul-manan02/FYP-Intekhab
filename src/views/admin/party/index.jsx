@@ -23,6 +23,7 @@ const PartyApproval = () => {
     const fetchRequests = async () => {
         try {
             const response = await getRequests();
+            console.log('res', response)
             setRequests(response);
         } catch (error) {
             console.log(error.message);

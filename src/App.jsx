@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import PartyDashboard from './views/party';
 import CandidateDashboard from './views/voterCandidate';
 import { Landing } from './views/landing/Landing';
@@ -11,6 +11,7 @@ import PartyRegister from './views/auth/party/register';
 import VoterRegister from './views/auth/voter-candidate/register';
 
 function App() {
+    const admin = localStorage.getItem('admin');
     return (
         <Router>
             <Routes>
@@ -18,7 +19,7 @@ function App() {
                 <Route path="/party/dashboard" element={<PartyDashboard />} />
                 <Route path="/voter-candidate/dashboard" element={<CandidateDashboard />} />
                 <Route path="/admin/dashboard" element={<AdminProtected element={<AdminDashboard />} />} />
-                <Route path="/login" element={<AdminLogin />} />
+                <Route path="/login" element={admin ? <Navigate to="/admin/dashboard" /> : <AdminLogin />} />
                 <Route path="/voter/login" element={<VoterCandidateLogin />} />
                 <Route path="/party/login" element={<PartyLogin />} />
                 <Route path="/party/register" element={<PartyRegister />} />
