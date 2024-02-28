@@ -29,6 +29,8 @@
         "@mui/material": "^5.14.14",
         "@mui/x-charts": "^6.18.2",
         "@mui/x-data-grid": "^6.16.2",
+        "firebase": "^10.8.0",
+        "firebaseui": "^6.1.0",
         "jotai": "^2.6.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

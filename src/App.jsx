@@ -9,6 +9,7 @@ import VoterCandidateLogin from './views/auth/voter-candidate/login';
 import PartyLogin from './views/auth/party/login';
 import PartyRegister from './views/auth/party/register';
 import VoterRegister from './views/auth/voter-candidate/register';
+import OTP from './views/auth/voter-candidate/otp';
 
 function App() {
     const admin = localStorage.getItem('admin');
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/party/login" element={<PartyLogin />} />
                 <Route path="/party/register" element={<PartyRegister />} />
                 <Route path="/voter/register" element={<VoterRegister />} />
+                <Route path="/otp" element={<OTP />} />
             </Routes>
         </Router>
     );
