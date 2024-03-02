@@ -41,6 +41,7 @@
         "react-router-dom": "^6.17.0",
         "react-scripts": "^5.0.1",
         "react-toastify": "^10.0.3",
+        "react-webcam": "^7.2.0",
         "typeface-poppins": "^1.1.13",
         "web-vitals": "^3.5.2"
     },

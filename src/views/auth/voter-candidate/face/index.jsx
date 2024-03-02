@@ -1,50 +1,50 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import Webcam from 'react-webcam';
 
 const FaceVerification = () => {
-    const videoRef = useRef(null);
+    const webcamRef = useRef(null);
+    const [capturedImage, setCapturedImage] = useState(null);
 
-    const startCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            if (videoRef.current) {
-                videoRef.current.srcObject = stream;
-            }
-        } catch (err) {
-            console.error('Error accessing camera:', err);
-        }
+    const capture = () => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        setCapturedImage(imageSrc);
     };
 
-    const capturePicture = () => {
-        const canvas = document.createElement('canvas');
-        const video = videoRef.current;
-
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        const imageDataURL = canvas.toDataURL('image/png');
-        console.log('Captured Picture:', imageDataURL);
+    const recapture = () => {
+        setCapturedImage(null);
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="relative">
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    className="w-full h-full border "
-                    onLoadedMetadata={() => {
-                        startCamera();
-                    }}
-                />
-                <button
-                    className="absolute px-4 py-2 font-bold text-white bg-blue-500 rounded bottom-4 left-4 hover:bg-blue-700"
-                    onClick={capturePicture}
-                >
-                    Capture
-                </button>
-            </div>
+        <div className="mt-10 flex flex-col justify-center items-center">
+            <h1 className="text-center font-bold text-2xl mb-4">Face Verification</h1>
+            {capturedImage ? (
+                <>
+                    <img src={capturedImage} alt="Captured" />
+                    <div className="flex gap-4">
+                        {' '}
+                        <button className="bg-themePurple text-white px-4 py-2 rounded-lg mt-4" onClick={recapture}>
+                            Recapture
+                        </button>
+                        <button className="bg-themePurple text-white px-4 py-2 rounded-lg mt-4" onClick={recapture}>
+                            Verify
+                        </button>
+                    </div>
+                </>
+            ) : (
+                <div>
+                    <Webcam
+                        audio={false}
+                        height={600}
+                        width={600}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        videoConstraints={{ facingMode: 'user' }}
+                    />
+                    <button className="bg-themePurple text-white px-4 py-2 rounded-lg mt-4" onClick={capture}>
+                        Capture
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
