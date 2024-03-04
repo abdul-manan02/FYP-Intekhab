@@ -12,7 +12,6 @@ import { MdContentPasteSearch } from 'react-icons/md';
 import CandidateWindow from './candidate';
 import CastVote from './cast';
 import Party from './party';
-import PastVotes from './past';
 import Profile from './profile';
 import VerifyVote from './verify';
 
@@ -80,19 +79,6 @@ const CandidateDashboard = () => {
                             </p>
                             <p>Profile</p>
                         </button>
-                        <button
-                            onClick={() => {
-                                setChoice('past');
-                            }}
-                            className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
-                                choice === 'past' ? 'bg-hoverPurple' : null
-                            }`}
-                        >
-                            <p>
-                                <MdContentPasteSearch />
-                            </p>
-                            <p>Past Votes</p>
-                        </button>
 
                         <button
                             onClick={() => {
@@ -145,11 +131,7 @@ const CandidateDashboard = () => {
                             <Profile />
                         </div>
                     ) : null}
-                    {choice === 'past' ? (
-                        <div className="ml-[20rem]">
-                            <PastVotes />
-                        </div>
-                    ) : null}
+
                     {choice === 'verify' ? (
                         <div className="ml-[20rem]">
                             <VerifyVote />

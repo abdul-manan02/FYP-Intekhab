@@ -7,12 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import PartyRequestDetail from './detail';
 import { partyRequestAtom } from '../../../store/admin';
 import { useAtom } from 'jotai';
-
-// const rows = [
-//     { id: 1, party: 'PTI', chairman: 'Imran Khan' },
-//     { id: 2, party: 'PTI', chairman: 'Imran Khan' },
-//     { id: 3, party: 'PTI', chairman: 'Imran Khan' },
-// ];
+import Loader from '../../../components/Loader';
 
 const PartyApproval = () => {
     const navigate = useNavigate();
@@ -21,15 +16,15 @@ const PartyApproval = () => {
 
     const [requests, setRequests] = useState([]);
 
-    const[rows, setRows] = useState([]);
+    const [rows, setRows] = useState(null);
 
     const [, setSelectedRequest] = useAtom(partyRequestAtom);
 
     const fetchRequests = async () => {
         try {
             const response = await getRequests();
-            setRequests(response);
-            console.log(response)
+            console.log('res', response);
+            setRequests(response.results);
         } catch (error) {
             console.log(error.message);
         }
@@ -41,26 +36,28 @@ const PartyApproval = () => {
 
     const handleSelectedRequest = (id) => {
         const filteredRequest = requests.find((item) => item._id.toString() === id.toString());
-        setSelectedRequest(filteredRequest)
+        setSelectedRequest(filteredRequest);
         setOpened(true);
     };
 
     const prepareRows = (requests) => {
-        const data = requests.map((request) => {
-            return {
-                id: request._id,
-                party: request.name,
-                chairman: request.leaderCNIC,
-            };
-        });
-
-        setRows(data);
+        if (requests && requests > 0) {
+            const data =
+                requests &&
+                requests.map((request) => {
+                    return {
+                        id: request._id,
+                        party: request.name,
+                        chairman: request.leaderCNIC,
+                    };
+                });
+            setRows(data);
+        }
     };
 
     useEffect(() => {
         prepareRows(requests);
     }, [requests]);
-    
 
     const columns = [
         { field: 'party', headerName: 'Name', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white text-xl' },
@@ -96,12 +93,17 @@ const PartyApproval = () => {
             <PartyRequestDetail opened={opened} setOpened={setOpened} />
 
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Party Approval</h1>
+
             <div className="mx-[0.5rem] mt-10">
-                <StripedDataGrid
-                    rows={rows}
-                    columns={columns}
-                    getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
-                />
+                {rows && rows.length > 0 ? (
+                    <StripedDataGrid
+                        rows={rows}
+                        columns={columns}
+                        getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
+                    />
+                ) : (
+                    <Loader />
+                )}
             </div>
         </>
     );

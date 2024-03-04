@@ -18,7 +18,7 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
                 status: 'Accepted',
             };
             const response = await acceptRequest(selectedPartyRequest._id, requestBody);
-            handleClose()
+            handleClose();
         } catch (error) {
             console.log(error.message);
         }
@@ -47,19 +47,21 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
             <DialogTitle>Party approval request</DialogTitle>
             <DialogContent className="w-[30rem]">
                 <p className="font-bold">Chairman CNIC:</p>
-                <p>{selectedPartyRequest.leaderCNIC}</p>
+                <p>{selectedPartyRequest?.leaderCNIC}</p>
                 <p className="font-bold">Party Name:</p>
-                <p>{selectedPartyRequest.name}</p>
+                <p>{selectedPartyRequest?.name}</p>
                 <p className="font-bold">Status:</p>
-                <p>{selectedPartyRequest.status}</p>
+                <p>{selectedPartyRequest?.status}</p>
                 <p className="font-bold">Submit Time</p>
-                <p>{convertToReadableTime(selectedPartyRequest.submitTime)}</p>
+                <p>{convertToReadableTime(selectedPartyRequest?.submitTime)}</p>
                 <p className="font-bold">Document</p>
-                <p>{selectedPartyRequest.proof}</p>
+                <p>{selectedPartyRequest?.proof}</p>
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button variant='contained' onClick={handleAccept}>Approve</Button>
+                <Button variant="contained" onClick={handleAccept}>
+                    Approve
+                </Button>
             </DialogActions>
         </Dialog>
     );

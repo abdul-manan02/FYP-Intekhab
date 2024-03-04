@@ -5,6 +5,7 @@ import ConstituencyDropDown from '../../components/ConstituencyDropDown';
 import ElectionDropDown from '../../components/ElectionDropDown';
 import { constituencyAtom, electionAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
+import Loader from '../../../../components/Loader';
 
 const electionTypes = ['General Elections', 'By Elections'];
 
@@ -64,7 +65,7 @@ const CreateElection = () => {
     };
 
     return (
-        <div className=" px-16 py-8 mx-[0.5rem] mt-8 bg-white">
+        <div className=" px-16 py-8 mx-[0.5rem] mt-8 bg-white rounded-xl">
             <div className="flex gap-8">
                 <div className="w-full">
                     <InputLabel
@@ -91,7 +92,7 @@ const CreateElection = () => {
                     </InputLabel>
                     <ConstituencyDropDown data={filteredConstituencyData} />
                 </div>
-            ) : null}
+            ) : <Loader className={"mt-10"} />}
 
             <div className="mt-8">
                 <div className="flex items-end justify-end mt-8">

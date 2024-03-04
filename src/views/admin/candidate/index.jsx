@@ -6,6 +6,7 @@ import { candidateRequestAtom } from '../../../store/admin';
 import { useAtom } from 'jotai';
 import { useState, useEffect } from 'react';
 import CandidateRequestDetail from './detail';
+import Loader from '../../../components/Loader';
 
 const CandidateApproval = () => {
     const [, setSelectedRequest] = useAtom(candidateRequestAtom);
@@ -19,7 +20,7 @@ const CandidateApproval = () => {
     const fetchRequests = async () => {
         try {
             const response = await getCandidateRequests();
-            setRequests(response);
+            setRequests(response.results);
             console.log(response);
         } catch (error) {
             console.log(error.message);
@@ -27,13 +28,16 @@ const CandidateApproval = () => {
     };
 
     const prepareRows = (requests) => {
-        const data = requests.map((request) => {
-            return {
-                id: request._id,
-                candidate: request.accountId,
-                status: request.status,
-            };
-        });
+        const data =
+            requests.length > 0 &&
+            requests.map((request) => {
+                console.log('in here', request);
+                return {
+                    id: request._id,
+                    candidate: request.accountId,
+                    status: request.status,
+                };
+            });
 
         setRows(data);
     };
@@ -48,7 +52,7 @@ const CandidateApproval = () => {
 
     const handleSelectedRequest = (id) => {
         const filteredRequest = requests.find((item) => item._id.toString() === id.toString());
-        setSelectedRequest(filteredRequest)
+        setSelectedRequest(filteredRequest);
         setOpened(true);
     };
 
@@ -88,11 +92,15 @@ const CandidateApproval = () => {
                 Candidate Approval
             </h1>
             <div className="mx-[0.5rem] mt-10">
-                <StripedDataGrid
-                    rows={rows}
-                    columns={columns}
-                    getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
-                />
+                {rows && rows.length > 0 ? (
+                    <StripedDataGrid
+                        rows={rows}
+                        columns={columns}
+                        getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
+                    />
+                ) : (
+                    <Loader />
+                )}
             </div>
         </>
     );

@@ -2,7 +2,6 @@ import { DashNav } from '../../components/DashNav';
 import { BsPersonFillCheck } from 'react-icons/bs';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsClipboard2CheckFill } from 'react-icons/bs';
-import { IoPerson } from 'react-icons/io5';
 import logo from '../../assets/icons/logo.png';
 import { useState } from 'react';
 import ManageElection from './election';
@@ -15,7 +14,7 @@ const AdminDashboard = () => {
 
     return (
         <div>
-            <DashNav />
+            <DashNav role={'admin'} />
             <div className="w-[100%] flex relative">
                 <div className="fixed top-0 h-screen bg-white w-80">
                     <p className=" text-themePurple text-[2.25rem] font-[500] flex gap-2 ml-8 mt-8">
