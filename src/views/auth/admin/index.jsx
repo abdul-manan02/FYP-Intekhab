@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { adminLogin } from '../../../services/admin/authService';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const AdminLogin = () => {
     const navigate = useNavigate();
@@ -25,12 +26,13 @@ const AdminLogin = () => {
             const response = await adminLogin(requestBody);
 
             if (response.result) {
-                localStorage.setItem('admin', JSON.stringify(response.result));
+                console.log(response);
+                localStorage.setItem('admin', JSON.stringify({ token: response.token }));
                 navigate('/admin/dashboard');
             }
         } catch (error) {
             setError(error.message);
-            console.log('here', error.message);
+            toast.error(error.message);
         } finally {
             setIsLoading(false);
         }

@@ -11,11 +11,14 @@ import PartyRegister from './views/auth/party/register';
 import VoterRegister from './views/auth/voter-candidate/register';
 import OTP from './views/auth/voter-candidate/otp';
 import FaceVerification from './views/auth/voter-candidate/face';
+import { Toaster } from 'react-hot-toast';
+import PdfDoc from './views/admin/party/detail/pdf';
 
 function App() {
     const admin = localStorage.getItem('admin');
     return (
         <Router>
+            <Toaster />
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/party/dashboard" element={<PartyDashboard />} />
@@ -28,6 +31,8 @@ function App() {
                 <Route path="/voter/register" element={<VoterRegister />} />
                 <Route path="/otp" element={<OTP />} />
                 <Route path="/face-verification" element={<FaceVerification />} />
+
+                <Route path="/admin/dashboard/pdf" element={<PdfDoc />} />
             </Routes>
         </Router>
     );

@@ -5,10 +5,15 @@ export async function adminLogin(payload) {
     try {
         const url = `${ADMIN_BASE_URL}/api/v1/admin/login`;
         const response = await fetcher(url, 'POST', payload);
+
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error('Failed to login. Please try again.');
+        }
+
         return response.json();
     } catch (error) {
-        console.log('here', error.message);
-        return error;
+        throw error; // Throw the error here
     }
 }
 

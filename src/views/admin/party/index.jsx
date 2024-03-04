@@ -23,8 +23,8 @@ const PartyApproval = () => {
     const fetchRequests = async () => {
         try {
             const response = await getRequests();
-            console.log('res', response)
-            setRequests(response);
+            console.log('res', response);
+            setRequests(response.results);
         } catch (error) {
             console.log(error.message);
         }
@@ -41,16 +41,18 @@ const PartyApproval = () => {
     };
 
     const prepareRows = (requests) => {
-        const data =
-            requests &&
-            requests.map((request) => {
-                return {
-                    id: request._id,
-                    party: request.name,
-                    chairman: request.leaderCNIC,
-                };
-            });
-        setRows(data);
+        if (requests && requests > 0) {
+            const data =
+                requests &&
+                requests.map((request) => {
+                    return {
+                        id: request._id,
+                        party: request.name,
+                        chairman: request.leaderCNIC,
+                    };
+                });
+            setRows(data);
+        }
     };
 
     useEffect(() => {
@@ -91,6 +93,7 @@ const PartyApproval = () => {
             <PartyRequestDetail opened={opened} setOpened={setOpened} />
 
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Party Approval</h1>
+
             <div className="mx-[0.5rem] mt-10">
                 {rows && rows.length > 0 ? (
                     <StripedDataGrid
