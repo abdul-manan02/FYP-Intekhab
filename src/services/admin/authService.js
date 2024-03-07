@@ -20,3 +20,7 @@ export async function adminLogin(payload) {
 export async function adminLogout() {
     localStorage.removeItem('admin');
 }
+
+export async function voterCandidateLogout() {
+    localStorage.removeItem('voter-candidate');
+}

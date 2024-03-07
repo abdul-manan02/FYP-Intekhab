@@ -42,6 +42,15 @@ const CandidateRequestDetail = ({ opened, setOpened }) => {
         return date.toLocaleString(undefined, options);
     };
 
+    const handleViewDocument = (doc) => {
+        const url = `/admin/dashboard/pdf/${selectedCandidateRequest._id}`;
+
+        localStorage.setItem('state', JSON.stringify(doc));
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+    };
+
     return (
         <Dialog open={opened} onClose={handleClose}>
             <DialogTitle>Candidate approval request</DialogTitle>
@@ -53,7 +62,14 @@ const CandidateRequestDetail = ({ opened, setOpened }) => {
                 <p className="font-bold">Submit Time</p>
                 <p>{convertToReadableTime(selectedCandidateRequest.submitTime)}</p>
                 <p className="font-bold">Document</p>
-                <p>{selectedCandidateRequest.proof}</p>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        handleViewDocument(selectedCandidateRequest?.proof);
+                    }}
+                >
+                    View Document
+                </Button>
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>

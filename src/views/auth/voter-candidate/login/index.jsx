@@ -25,8 +25,8 @@ const VoterCandidateLogin = () => {
             const response = await voterLogin(requestBody);
 
             if (response.token) {
-                localStorage.setItem('adminToken', response.token);
-                navigate('/admin/dashboard');
+                localStorage.setItem('voter-candidate', JSON.stringify(response));
+                navigate('/voter-candidate/dashboard');
             }
         } catch (error) {
             setError(error.message);

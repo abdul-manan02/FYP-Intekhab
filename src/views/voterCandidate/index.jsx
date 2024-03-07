@@ -20,7 +20,7 @@ const CandidateDashboard = () => {
 
     return (
         <div>
-            <DashNav />
+            <DashNav role="voter-candidate" />
             <div className="w-[100%] flex relative">
                 <div className="fixed top-0 h-screen bg-white w-80">
                     <p className=" text-themePurple text-[2.25rem] font-[500] flex gap-2 ml-8 mt-8">

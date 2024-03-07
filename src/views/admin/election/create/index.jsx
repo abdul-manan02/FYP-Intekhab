@@ -6,6 +6,12 @@ import ElectionDropDown from '../../components/ElectionDropDown';
 import { constituencyAtom, electionAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
 import Loader from '../../../../components/Loader';
+import toast from 'react-hot-toast';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
 
 const electionTypes = ['General Elections', 'By Elections'];
 
@@ -15,8 +21,9 @@ const CreateElection = () => {
     const [filteredConstituencyData, setFilteredConstituencyData] = useState([]);
     const [selectedConstituency] = useAtom(constituencyAtom);
     const [selectedElection] = useAtom(electionAtom);
+    const [selectedTime, setSelectedTime] = useState(null); // State to hold selected time
 
-    const adminToken = localStorage.getItem("adminToken")
+    const adminToken = JSON.parse(localStorage.getItem('admin'));
 
     const fetchConstituencies = async () => {
         try {
@@ -38,24 +45,27 @@ const CreateElection = () => {
 
     const handleCreateClick = async () => {
         setLoading(true);
+
+        const formattedTime = dayjs(selectedTime).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
         try {
             if (selectedElection === 'By Elections') {
                 const constituencyObj = constituencyData.filter((constituency) => constituency.name === selectedConstituency);
-                console.log(constituencyObj);
                 const requestBody = {
                     electionType: selectedElection,
                     constituency: constituencyObj[0],
+                    selectedTime: formattedTime,
                 };
-                console.log('body', requestBody);
                 const response = await createElection(requestBody);
-                console.log('by elections', response);
+                toast.success('Election scheduled successfully');
             } else if (selectedElection === 'General Elections') {
                 const requestBody = {
                     electionType: selectedElection,
-                    token: adminToken
+                    token: adminToken.token,
+                    selectedTime: selectedTime, // Pass selected time to the request body
                 };
                 const response = await createElection(requestBody);
-                console.log('general', response);
+                toast.success('Election scheduled successfully');
             }
         } catch (error) {
             console.error('Error during creation of election:', error);
@@ -92,7 +102,22 @@ const CreateElection = () => {
                     </InputLabel>
                     <ConstituencyDropDown data={filteredConstituencyData} />
                 </div>
-            ) : <Loader className={"mt-10"} />}
+            ) : null}
+
+            <InputLabel
+                sx={{
+                    fontWeight: 'bold',
+                    fontSize: '1.5rem',
+                    marginTop: '2rem',
+                }}
+            >
+                Schedule time
+            </InputLabel>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DateTimePicker']}>
+                    <DateTimePicker label="Basic date time picker" onChange={setSelectedTime} value={selectedTime} />
+                </DemoContainer>
+            </LocalizationProvider>
 
             <div className="mt-8">
                 <div className="flex items-end justify-end mt-8">

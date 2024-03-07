@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import ScheduledElectionDetail from './detail';
 import Loader from '../../../../components/Loader';
+import dayjs from 'dayjs';
 
 const ScheduledElection = () => {
     const [opened, setOpened] = useState(false);
@@ -38,14 +39,19 @@ const ScheduledElection = () => {
         setOpened(true);
     };
 
+    function convertToReadableFormat(dateString) {
+        return dayjs(dateString).format('MMMM D, YYYY [at] HH:mm:ss');
+    }
+
     const prepareRows = (requests) => {
         const data =
             requests &&
             requests.length > 0 &&
             requests.map((request) => {
+                console.log(request)
                 return {
                     id: request._id,
-                    startTime: 'Not started',
+                    startTime: convertToReadableFormat(request.electionTime),
                     type: request.electionType,
                 };
             });

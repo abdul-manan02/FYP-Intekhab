@@ -23,7 +23,7 @@ const PartyApproval = () => {
     const fetchRequests = async () => {
         try {
             const response = await getRequests();
-            console.log('res', response);
+            console.log('res', response.results);
             setRequests(response.results);
         } catch (error) {
             console.log(error.message);
@@ -41,7 +41,7 @@ const PartyApproval = () => {
     };
 
     const prepareRows = (requests) => {
-        if (requests && requests > 0) {
+        if (requests && requests.length > 0) {
             const data =
                 requests &&
                 requests.map((request) => {
@@ -51,6 +51,7 @@ const PartyApproval = () => {
                         chairman: request.leaderCNIC,
                     };
                 });
+            console.log('data', data)
             setRows(data);
         }
     };

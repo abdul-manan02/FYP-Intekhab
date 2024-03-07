@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-
 pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.js', import.meta.url).toString();
+import { useLocation } from 'react-router-dom';
 
 const PdfDoc = () => {
     const [numPages, setNumPages] = React.useState(null);
     const [pageNumber, setPageNumber] = React.useState(1);
     const [scale, setScale] = React.useState(1.0);
+    const [state, setState] = useState(JSON.parse(localStorage.getItem('state')));
+    const location = useLocation();
+
+    useEffect(() => {
+        localStorage.removeItem('state');
+    }, []);
+
+    useEffect(() => {
+        if (location.state) {
+            setState(location.state);
+        }
+    }, [location]);
+
+    useEffect(() => {
+        console.log('Passed state', { state });
+    }, [state]);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -37,8 +53,9 @@ const PdfDoc = () => {
     return (
         <div className="flex flex-col items-center justify-center space-y-4">
             <Document
-            className="mt-10 border-2 shadow-lg"
-                file="https://entekhaab-bucket.s3.eu-north-1.amazonaws.com/1709410641629-1709404937942-Furqan%20Resume%20Dev%26DevOps.pdf"
+                className="mt-10 border-2 shadow-lg"
+                file={state}
+                // file="https://entekhaab-bucket.s3.eu-north-1.amazonaws.com/1709410641629-1709404937942-Furqan%20Resume%20Dev%26DevOps.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
             >
                 <Page pageNumber={pageNumber} scale={scale} />
@@ -73,10 +90,6 @@ const PdfDoc = () => {
             <p className="text-gray-600">
                 Page {pageNumber} of {numPages}
             </p>
-            <div className="flex items-center justify-center pb-10 space-x-4">
-                <button className="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700">Accept</button>
-                <button className="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700">Reject</button>
-            </div>
         </div>
     );
 };

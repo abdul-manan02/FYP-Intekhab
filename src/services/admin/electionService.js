@@ -57,3 +57,14 @@ export async function getConstituencies() {
         console.log(error.message);
     }
 }
+
+export async function startElection(id) {
+    try {
+        const url = `${baseURL}/api/v1/admin/election/id/${id}/start`;
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const response = await fetcher(url, 'GET', undefined, admin.token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}

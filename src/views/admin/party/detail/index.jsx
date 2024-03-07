@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { partyRequestAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
@@ -42,6 +42,20 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
         return date.toLocaleString(undefined, options);
     };
 
+    // const handleViewDocument = (doc) => {
+    //     navigate(`/admin/dashboard/pdf/${selectedPartyRequest._id}`, { state: { docValue: doc } });
+    // };
+
+    const handleViewDocument = (doc) => {
+        const url = `/admin/dashboard/pdf/${selectedPartyRequest._id}`;
+
+        localStorage.setItem("state", JSON.stringify(doc));
+    
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+    };
+    
+
     return (
         <Dialog open={opened} onClose={handleClose}>
             <DialogTitle>Party approval request</DialogTitle>
@@ -55,11 +69,23 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
                 <p className="font-bold">Submit Time</p>
                 <p>{convertToReadableTime(selectedPartyRequest?.submitTime)}</p>
                 <p className="font-bold">Document</p>
-                <p>{selectedPartyRequest?.proof}</p>
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        handleViewDocument(selectedPartyRequest?.proof);
+                    }}
+                >
+                    View Document
+                </Button>
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" onClick={handleAccept}>
+                <Button
+                    variant="contained"
+                    className={`${selectedPartyRequest?.status === 'Accepted' ? 'cursor-not-allowed' : ''}`}
+                    disabled
+                    onClick={handleAccept}
+                >
                     Approve
                 </Button>
             </DialogActions>
