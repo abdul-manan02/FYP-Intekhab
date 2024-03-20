@@ -26,15 +26,16 @@ const VoterRegister = () => {
             setError('');
 
             const requestBody = {
-                name: name,
-                leaderAccountCNIC: cnic,
+                // name: name,
+                cnic: cnic,
                 password: password,
-                proof: 'This is proof',
-                selectedSim: '03471623073',
+                citizenDataId: candidateData._id,
+                selectedSim: selectedSim,
+                votingAddress: 'some address',
             };
 
-            const response = await voterRegister(requestBody);
-            navigate('/voter/login');
+            // const response = await voterRegister(requestBody);
+            navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
         } catch (error) {
             setError(error.message);
         } finally {
@@ -45,10 +46,15 @@ const VoterRegister = () => {
     const handleVerify = async () => {
         try {
             setIsloading2(true);
-            console.log('cnic', cnic)
+            console.log('cnic', cnic);
             const response = await verifyCitizen(cnic);
             console.log(response);
-            setCandidateData(response);
+            if (response.sims.length > 0) {
+                setCandidateData(response);
+                setVerified(true);
+            } else {
+                setVerified(false);
+            }
         } catch (error) {
             toast.error(error.message, {
                 position: 'top-right',
@@ -67,7 +73,7 @@ const VoterRegister = () => {
     };
 
     const handleCnicChange = (e) => {
-        setCnic(e.target.value)
+        setCnic(e.target.value);
         // const inputCnic = e.target.value;
 
         // // Validate CNIC format using regex
@@ -118,7 +124,11 @@ const VoterRegister = () => {
                                     Select an option
                                 </option>
                                 {candidateData.sims.map((sim, index) => {
-                                    return <option key={index} value={sim}>{sim}</option>;
+                                    return (
+                                        <option key={index} value={sim}>
+                                            {sim}
+                                        </option>
+                                    );
                                 })}
                             </select>
                         </>
@@ -135,27 +145,14 @@ const VoterRegister = () => {
                     {error !== '' ? <p className="mt-1 text-red-500">{error}</p> : null}
                     <button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isLoading || !verified}
                         className={`${
-                            isLoading ? 'cursor-not-allowed opacity-70' : ''
+                            isLoading || !verified ? 'cursor-not-allowed opacity-70' : ''
                         } p-4 mt-8 text-lg font-bold text-white rounded-md bg-themePurple`}
                     >
                         {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 'Register'}
                     </button>
                 </form>
-
-                <div className="w-full mt-10">
-                    <h1 className="text-xl font-bold text-center">Choose Verification Method</h1>
-                    <div className="flex items-center justify-between w-full mt-10">
-                        {' '}
-                        <button disabled className="px-4 py-2 text-xl font-bold bg-purple-300 cursor-not-allowed opacity-30">
-                            OTP
-                        </button>
-                        <button disabled className="px-4 py-2 text-xl font-bold bg-purple-300 cursor-not-allowed opacity-30">
-                            Facial Verification
-                        </button>
-                    </div>
-                </div>
             </div>
             <ToastContainer />
         </div>

@@ -1,10 +1,14 @@
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const FaceVerification = () => {
     const webcamRef = useRef(null);
+    const location = useLocation();
     const [capturedImage, setCapturedImage] = useState(null);
     const [verificationResult, setVerificationResult] = useState(null);
+    const navigate = useNavigate();
 
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -21,7 +25,8 @@ const FaceVerification = () => {
             const formData = new FormData();
             formData.append('photo', dataURLtoFile(capturedImage, 'captured_image.jpg'));
 
-            const cnic = '55555-5555555-5'; // Hardcoded CNIC value
+            // const cnic = '55555-5555555-5'; // Hardcoded CNIC value
+            const cnic = location.state ? location.state.cnic : null;
 
             const response = await fetch(`http://localhost:5000/verifyImage/${cnic}`, {
                 method: 'POST',
@@ -29,6 +34,16 @@ const FaceVerification = () => {
             });
 
             const data = await response.json();
+            const checkLogin = location.state ? location.state.login : null;
+
+            if (data.status === 'success') {
+                console.log(checkLogin);
+                if (checkLogin && checkLogin === 'yes') {
+                    navigate('/voter-candidate/dashboard');
+                } else {
+                    navigate('/voter/login');
+                }
+            }
 
             setVerificationResult(data);
         } catch (error) {

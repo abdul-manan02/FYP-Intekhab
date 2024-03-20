@@ -68,9 +68,9 @@ const CandidateWindow = () => {
     return (
         <div>
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Candidate</h1>
-
+            {/* <button onClick={() => console.log(voter.account.isCandidate)}>test</button> */}
             <h1 className="m-[0.5rem] p-[1rem] text-2xl text-themePurple font-semibold">Apply to join a Party</h1>
-            {!voter.account.isCandidate ? (
+            {voter && voter.account.isCandidate === 'false' ? (
                 <div>
                     <div className="flex flex-col items-center justify-center gap-4">
                         <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
@@ -119,7 +119,9 @@ const CandidateWindow = () => {
                     </div>
                 </div>
             ) : (
-                <h1>You are already a member of a party</h1>
+                <h1 className="text-xl text-center">
+                    You are already a member of a party. Visit <span className="font-bold">Party</span> tab to view your party
+                </h1>
             )}
         </div>
     );

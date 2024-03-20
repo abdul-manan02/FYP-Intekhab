@@ -5,6 +5,8 @@ export async function verifyCitizen(cnic) {
     try {
         const url = `${CITIZEN_DATA_BASE_URL}/api/v1/citizenData/cnic/${cnic}`;
 
+        console.log(url);
+
         const response = await fetcher(url, 'GET');
 
         if (!response.ok) {

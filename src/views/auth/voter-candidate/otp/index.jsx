@@ -8,13 +8,18 @@ import 'react-phone-input-2/lib/style.css';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { toast, Toaster } from 'react-hot-toast';
 import { auth } from '../../../../config/firebase.config';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const OTP = () => {
     const [otp, setOtp] = useState('');
-    const [ph, setPh] = useState('');
     const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const selectedSim = location.state ? location.state.selectedSim : null;
 
     let recaptchaVerifier;
 
@@ -35,7 +40,7 @@ const OTP = () => {
         });
 
         // Send OTP to the provided phone number
-        const formatPh = '+' + ph;
+        const formatPh = '+92' + '3471623073'; // Using selected SIM directly
         signInWithPhoneNumber(auth, formatPh, recaptchaVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
@@ -59,6 +64,7 @@ const OTP = () => {
                 setUser(result.user);
                 setLoading(false);
                 toast.success('OTP verified successfully!');
+                navigate('/face-verification', { state: { cnic: location.state ? location.state.cnic : null } });
             })
             .catch((error) => {
                 console.error('Error verifying OTP:', error);
@@ -82,7 +88,7 @@ const OTP = () => {
                 ) : (
                     <div className="flex flex-col gap-4 p-4 rounded-lg w-80">
                         <h1 className="mb-6 text-3xl font-medium leading-normal text-center text-white">
-                            Welcome to <br /> CODE A PROGRAM
+                            Please verify your selected sim to continue
                         </h1>
                         {showOTP ? (
                             <>
@@ -117,7 +123,23 @@ const OTP = () => {
                                 <label htmlFor="" className="text-xl font-bold text-center text-white">
                                     Verify your phone number
                                 </label>
-                                <PhoneInput country={'in'} value={ph} onChange={setPh} />
+                                <div className="relative">
+                                    <PhoneInput
+                                        country={'pk'} // Set country code to Pakistan
+                                        value={selectedSim} // Set the selected SIM as value
+                                        // containerStyle={{ display: 'none' }} // Hide the input
+                                        inputStyle={{
+                                            backgroundColor: '#f4f4f4',
+                                            paddingRight: '2.5rem',
+                                            borderRadius: '0.375rem',
+                                            cursor: 'not-allowed',
+                                        }} // Style the input field
+                                        inputProps={{ readOnly: true }} // Make the input field read-only
+                                    />
+                                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <span className="text-gray-500">{selectedSim}</span>
+                                    </div>
+                                </div>
                                 <button
                                     onClick={onSignup}
                                     className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"

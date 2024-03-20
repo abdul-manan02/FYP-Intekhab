@@ -26,7 +26,8 @@ const VoterCandidateLogin = () => {
 
             if (response.token) {
                 localStorage.setItem('voter-candidate', JSON.stringify(response));
-                navigate('/voter-candidate/dashboard');
+                // navigate('/voter-candidate/dashboard');
+                navigate('/face-verification', { state: { cnic: cnic, login: 'yes' } });
             }
         } catch (error) {
             setError(error.message);
@@ -68,7 +69,7 @@ const VoterCandidateLogin = () => {
                     </button>
                 </form>
 
-                <div className="w-full mt-10">
+                {/* <div className="w-full mt-10">
                     <h1 className="text-xl font-bold text-center">Choose Verification Method</h1>
                     <div className="flex items-center justify-between w-full mt-10">
                         {' '}
@@ -79,7 +80,7 @@ const VoterCandidateLogin = () => {
                             Facial Verification
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
