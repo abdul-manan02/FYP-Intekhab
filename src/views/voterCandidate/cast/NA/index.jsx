@@ -18,7 +18,7 @@ const NA = () => {
 
     useEffect(() => {
         fetchParties();
-    });
+    }, []);
 
     return (
         <div className="p-4 m-2">

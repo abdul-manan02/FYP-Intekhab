@@ -26,11 +26,10 @@ const VoterRegister = () => {
             setError('');
 
             const requestBody = {
-                name: name,
-                leaderAccountCNIC: cnic,
-                password: password,
-                proof: 'This is proof',
                 selectedSim: '03471623073',
+                cnic: '10101-1010101-1',
+                password: 'password',
+                citizenDataId: '65f40a5a1ce42e0dde3e4afc',
             };
 
             const response = await voterRegister(requestBody);
@@ -45,7 +44,7 @@ const VoterRegister = () => {
     const handleVerify = async () => {
         try {
             setIsloading2(true);
-            console.log('cnic', cnic)
+            console.log('cnic', cnic);
             const response = await verifyCitizen(cnic);
             console.log(response);
             setCandidateData(response);
@@ -67,7 +66,7 @@ const VoterRegister = () => {
     };
 
     const handleCnicChange = (e) => {
-        setCnic(e.target.value)
+        setCnic(e.target.value);
         // const inputCnic = e.target.value;
 
         // // Validate CNIC format using regex
@@ -81,7 +80,15 @@ const VoterRegister = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="relative flex items-center justify-center h-screen">
+            <button
+                className="absolute px-4 py-2 text-white rounded-md top-8 right-8 bg-themePurple"
+                onClick={() => {
+                    navigate('/voter/login');
+                }}
+            >
+                Login
+            </button>
             <div className=" w-[30rem] flex flex-col justify-center items-center">
                 <h1 className="text-[2.25rem] font-poppins font-bold">Voter Registration</h1>
                 <p className="text-[1.125rem] font-poppins font-extralight">Enter your details to register your account</p>
@@ -118,7 +125,11 @@ const VoterRegister = () => {
                                     Select an option
                                 </option>
                                 {candidateData.sims.map((sim, index) => {
-                                    return <option key={index} value={sim}>{sim}</option>;
+                                    return (
+                                        <option key={index} value={sim}>
+                                            {sim}
+                                        </option>
+                                    );
                                 })}
                             </select>
                         </>

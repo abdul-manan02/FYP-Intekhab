@@ -11,3 +11,15 @@ export async function getCandidateRequests() {
         console.log(error.message);
     }
 }
+
+
+export async function updateCandidateRequest(id, payload) {
+    try {
+        const url = `${ADMIN_BASE_URL}/api/v1/admin/candidateApproval/id/${id}`;
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const response = await fetcher(url, 'PUT', payload, admin.token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}

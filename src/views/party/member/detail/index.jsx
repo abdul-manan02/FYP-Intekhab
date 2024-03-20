@@ -42,18 +42,35 @@ const MemberRequestDetail = ({ opened, setOpened }) => {
         return date.toLocaleString(undefined, options);
     };
 
+    const handleViewDocument = (doc) => {
+        const url = `/party/dashboard/pdf/${selectedMemberRequest._id}`;
+
+        localStorage.setItem('state', JSON.stringify(doc));
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+    };
+
     return (
         <Dialog open={opened} onClose={handleClose}>
             <DialogTitle>Candidate approval request</DialogTitle>
+            <button onClick={() => console.log(selectedMemberRequest)}>test</button>
             <DialogContent className="w-[30rem]">
-                {/* <p className="font-bold">Candidate Id:</p>
-                <p>{selectedCandidateRequest.accountId}</p>
+                <p className="font-bold">Candidate Id:</p>
+                <p>{selectedMemberRequest.memberId}</p>
                 <p className="font-bold">Request status:</p>
-                <p>{selectedCandidateRequest.status}</p>
+                <p>{selectedMemberRequest.status}</p>
                 <p className="font-bold">Submit Time</p>
-                <p>{convertToReadableTime(selectedCandidateRequest.submitTime)}</p>
+                <p>{convertToReadableTime(selectedMemberRequest.submitTime)}</p>
                 <p className="font-bold">Document</p>
-                <p>{selectedCandidateRequest.proof}</p> */}
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        handleViewDocument(selectedMemberRequest?.proof);
+                    }}
+                >
+                    View Document
+                </Button>
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>

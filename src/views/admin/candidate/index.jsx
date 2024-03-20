@@ -87,7 +87,7 @@ const CandidateApproval = () => {
 
     return (
         <>
-            <CandidateRequestDetail opened={opened} setOpened={setOpened} />
+            <CandidateRequestDetail opened={opened} setOpened={setOpened} fetchRequests={fetchRequests} />
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Candidate Approval
             </h1>

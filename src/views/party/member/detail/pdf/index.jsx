@@ -5,7 +5,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.js', import.meta.url).toString();
 import { useLocation } from 'react-router-dom';
 
-const PdfDoc = () => {
+const PartyPdfDoc = () => {
     const [numPages, setNumPages] = React.useState(null);
     const [pageNumber, setPageNumber] = React.useState(1);
     const [scale, setScale] = React.useState(1.0);
@@ -94,4 +94,4 @@ const PdfDoc = () => {
     );
 };
 
-export default PdfDoc;
+export default PartyPdfDoc;

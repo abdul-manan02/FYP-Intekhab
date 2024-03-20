@@ -23,12 +23,11 @@ const PartyRegister = () => {
                 leaderAccountCNIC: cnic,
                 password: password,
                 proof: 'This is proof',
-                selectedSim: '03471623073'
+                selectedSim: '03471623073',
             };
 
             const response = await partyRegister(requestBody);
-            navigate('/party/login')
-
+            navigate('/party/login');
         } catch (error) {
             setError(error.message);
             console.log('here', error.message);
@@ -38,7 +37,15 @@ const PartyRegister = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="relative flex items-center justify-center h-screen">
+            <button
+                className="absolute px-4 py-2 text-white rounded-md top-8 right-8 bg-themePurple"
+                onClick={() => {
+                    navigate('/party/login');
+                }}
+            >
+                Login
+            </button>
             <div className=" w-[30rem] flex flex-col justify-center items-center">
                 <h1 className="text-[2.25rem] font-poppins font-bold">Party Registration</h1>
                 <p className="text-[1.125rem] font-poppins font-extralight">Enter your details to access your account</p>
