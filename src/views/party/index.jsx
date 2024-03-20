@@ -15,7 +15,7 @@ const PartyDashboard = () => {
 
     return (
         <div>
-            <DashNav />
+            <DashNav role={'party'} />
             <div className="w-[100%] flex relative">
                 <div className="w-[20rem] h-screen fixed top-0 bg-white">
                     <p className=" text-themePurple text-[2.25rem] font-[500] flex gap-2 ml-8 mt-8">

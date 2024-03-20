@@ -1,4 +1,4 @@
-import { adminLogout, voterCandidateLogout } from '../services/admin/authService';
+import { adminLogout, voterCandidateLogout, partyLogout } from '../services/admin/authService';
 import { useNavigate } from 'react-router-dom';
 
 export const DashNav = ({ role }) => {
@@ -11,6 +11,9 @@ export const DashNav = ({ role }) => {
         } else if (role === 'voter-candidate') {
             voterCandidateLogout();
             navigate('/voter/login');
+        } else if (role === 'party') {
+            partyLogout();
+            navigate('/party/login');
         }
     };
     return (

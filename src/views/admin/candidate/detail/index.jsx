@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { candidateRequestAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
-import { acceptRequest } from '../../../../services/admin/partyService';
+import { updateCandidateRequest } from '../../../../services/admin/candidateService';
+import toast from 'react-hot-toast';
 
-const CandidateRequestDetail = ({ opened, setOpened }) => {
+const CandidateRequestDetail = ({ opened, setOpened, fetchRequests }) => {
     const [selectedCandidateRequest] = useAtom(candidateRequestAtom);
 
     const handleClose = () => {
+        console.log(selectedCandidateRequest);
         setOpened(false);
     };
 
-    // const handleAccept = async () => {
-    //     try {
-    //         const requestBody = {
-    //             name: selectedPartyRequest.name,
-    //             status: 'Accepted',
-    //         };
-    //         const response = await acceptRequest(selectedPartyRequest._id, requestBody);
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // };
+    const handleAccept = async (status) => {
+        try {
+            const requestBody = {
+                status: status,
+            };
+            const response = await updateCandidateRequest(selectedCandidateRequest._id, requestBody);
+            toast.success(`Request ${status} successfully`);
+            fetchRequests();
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
     const convertToReadableTime = (submitTime) => {
         const date = new Date(submitTime);
@@ -71,10 +73,16 @@ const CandidateRequestDetail = ({ opened, setOpened }) => {
                     View Document
                 </Button>
             </DialogContent>
-            <DialogActions style={{ paddingTop: '5em' }}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleClose}>Approve</Button>
-            </DialogActions>
+            {selectedCandidateRequest.status !== 'Accepted' && selectedCandidateRequest.status !== 'Rejected' ? (
+                <DialogActions style={{ paddingTop: '5em' }}>
+                    <Button onClick={() => handleAccept('Rejected')} variant="outlined">
+                        Reject
+                    </Button>
+                    <Button onClick={() => handleAccept('Accepted')} variant="contained">
+                        Approve
+                    </Button>
+                </DialogActions>
+            ) : null}
         </Dialog>
     );
 };

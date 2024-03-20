@@ -14,6 +14,8 @@ import FaceVerification from './views/auth/voter-candidate/face';
 import { Toaster } from 'react-hot-toast';
 import PdfDoc from './views/admin/party/detail/pdf';
 import VoterProtected from './routes/VoterProtected';
+import PartyProtected from './routes/PartyProtected';
+import PartyPdfDoc from './views/party/member/detail/pdf';
 
 function App() {
     const admin = localStorage.getItem('admin');
@@ -22,7 +24,7 @@ function App() {
             <Toaster />
             <Routes>
                 <Route path="/" element={<Landing />} />
-                <Route path="/party/dashboard" element={<PartyDashboard />} />
+                <Route path="/party/dashboard" element={<PartyProtected element={<PartyDashboard />} />} />
                 <Route path="/voter-candidate/dashboard" element={<VoterProtected element={<CandidateDashboard />} />} />
                 <Route path="/admin/dashboard" element={<AdminProtected element={<AdminDashboard />} />} />
                 <Route path="/login" element={admin ? <Navigate to="/admin/dashboard" /> : <AdminLogin />} />
@@ -33,6 +35,7 @@ function App() {
                 <Route path="/otp" element={<OTP />} />
                 <Route path="/face-verification" element={<FaceVerification />} />
                 <Route path="/admin/dashboard/pdf/:id" element={<PdfDoc />} />
+                <Route path="/party/dashboard/pdf/:id" element={<PartyPdfDoc />} />
             </Routes>
         </Router>
     );

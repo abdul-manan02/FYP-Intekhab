@@ -11,11 +11,11 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
         setOpened(false);
     };
 
-    const handleAccept = async () => {
+    const handleAccept = async (status) => {
         try {
             const requestBody = {
                 name: selectedPartyRequest.name,
-                status: 'Accepted',
+                status: status,
             };
             const response = await acceptRequest(selectedPartyRequest._id, requestBody);
             handleClose();
@@ -49,12 +49,11 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
     const handleViewDocument = (doc) => {
         const url = `/admin/dashboard/pdf/${selectedPartyRequest._id}`;
 
-        localStorage.setItem("state", JSON.stringify(doc));
-    
+        localStorage.setItem('state', JSON.stringify(doc));
+
         // Open the URL in a new tab
         window.open(url, '_blank');
     };
-    
 
     return (
         <Dialog open={opened} onClose={handleClose}>
@@ -78,17 +77,16 @@ const PartyRequestDetail = ({ opened, setOpened }) => {
                     View Document
                 </Button>
             </DialogContent>
-            <DialogActions style={{ paddingTop: '5em' }}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button
-                    variant="contained"
-                    className={`${selectedPartyRequest?.status === 'Accepted' ? 'cursor-not-allowed' : ''}`}
-                    disabled
-                    onClick={handleAccept}
-                >
-                    Approve
-                </Button>
-            </DialogActions>
+            {selectedPartyRequest.status !== 'Accepted' && selectedPartyRequest.status !== 'Rejected' ? (
+                <DialogActions style={{ paddingTop: '5em' }}>
+                    <Button onClick={() => handleAccept('Rejected')} variant="outlined">
+                        Reject
+                    </Button>
+                    <Button onClick={() => handleAccept('Accepted')} variant="contained">
+                        Approve
+                    </Button>
+                </DialogActions>
+            ) : null}
         </Dialog>
     );
 };

@@ -8,6 +8,8 @@ import { memberRequestAtom } from '../../../store/party';
 import MemberRequestDetail from './detail';
 import { useAtom } from 'jotai';
 
+
+
 const ManageMembers = () => {
     const [choice, setChoice] = useState('incoming');
     const [deletePopup, setDeletePopup] = useState(false);
@@ -21,10 +23,12 @@ const ManageMembers = () => {
     const [rows, setRows] = useState([]);
 
     const fetchRequests = async () => {
+        const party = JSON.parse(localStorage.getItem('partyToken'));
         try {
-            const response = await getApprovalRequests();
-            setRequests(response);
+            console.log('here', party);
+            const response = await getApprovalRequests(party.party._id, party.token);
             console.log(response);
+            setRequests(response.results);
         } catch (error) {
             console.log(error.message);
         }
@@ -34,9 +38,10 @@ const ManageMembers = () => {
         const data = requests.map((request) => {
             return {
                 id: request._id,
-                cnic: request.memberData.cnic,
-                name: request.memberData.name,
-                gender: request.memberData.gender,
+                cnic: request.voterCandidate.cnic,
+                name: request.voterCandidate.CitizenData.name,
+                gender: request.voterCandidate.CitizenData.gender,
+                proof: request.voterCandidate.proof,
             };
         });
 
@@ -56,15 +61,6 @@ const ManageMembers = () => {
         setSelectedRequest(filteredRequest);
         setOpened(true);
     };
-
-    // const rows = [
-    //     { id: 1, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    //     { id: 2, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    //     { id: 3, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    //     { id: 4, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    //     { id: 5, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    //     { id: 6, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    // ];
 
     const columns = [
         { field: 'cnic', headerName: 'CNIC', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white text-xl' },

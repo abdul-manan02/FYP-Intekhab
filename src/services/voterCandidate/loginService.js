@@ -14,7 +14,7 @@ export async function voterLogin(payload) {
 
 export async function voterRegister(payload) {
     try {
-        const url = `${VOTER_CANDIDATE_BASE_URL}/api/v1/voter/sign-up`;
+        const url = `${VOTER_CANDIDATE_BASE_URL}/api/v1/voter/signup`;
         const response = await fetcher(url, 'POST', payload);
         return response.json();
     } catch (error) {

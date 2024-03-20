@@ -14,9 +14,11 @@ export async function getRequests() {
 }
 
 export async function acceptRequest(id, payload) {
-    console.log(id, payload);
     try {
         const url = `${ADMIN_BASE_URL}/api/v1/admin/partyApproval/id/${id}`;
+
+        console.log(payload)
+        const admin = JSON.parse(localStorage.getItem('admin'));
         const response = await fetcher(url, 'PUT', payload, admin.token);
         return response.json();
     } catch (error) {

@@ -24,3 +24,7 @@ export async function adminLogout() {
 export async function voterCandidateLogout() {
     localStorage.removeItem('voter-candidate');
 }
+
+export async function partyLogout() {
+    localStorage.removeItem('partyToken');
+}
