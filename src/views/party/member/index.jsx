@@ -8,8 +8,6 @@ import { memberRequestAtom } from '../../../store/party';
 import MemberRequestDetail from './detail';
 import { useAtom } from 'jotai';
 
-
-
 const ManageMembers = () => {
     const [choice, setChoice] = useState('incoming');
     const [deletePopup, setDeletePopup] = useState(false);
@@ -99,27 +97,6 @@ const ManageMembers = () => {
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Managing Members
             </h1>
-
-            <div className="p-[0.5rem] flex gap-2">
-                <button
-                    className={`text-sm font-semibold px-4 py-2 border border-themePurple rounded-[0.4375rem] transition delay-75
-                    hover:bg-white hover:text-themePurple hover:border-white ${
-                        choice === 'incoming' ? 'bg-white text-themePurple border-white' : 'bg-themePurple text-white'
-                    } `}
-                    onClick={() => setChoice('incoming')}
-                >
-                    Incoming Requests
-                </button>
-                <button
-                    onClick={() => setChoice('members')}
-                    className={`text-sm font-semibold px-3 py-1 border border-themePurple rounded-[0.4375rem] transition delay-75
-                    hover:bg-white hover:text-themePurple hover:border-white ${
-                        choice === 'members' ? 'bg-white text-themePurple border-white' : 'bg-themePurple text-white'
-                    } `}
-                >
-                    Active Members
-                </button>
-            </div>
 
             <div style={{ marginLeft: '0.5rem', marginRight: '0.5rem', marginTop: '1rem' }}>
                 <StripedDataGrid

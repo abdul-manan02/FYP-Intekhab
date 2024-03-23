@@ -9,6 +9,7 @@ import CandidateEligibility from './eligibility';
 import Results from '../result';
 import ManageMembers from './member';
 import logo from '../../assets/icons/logo.png';
+import ActiveMembers from './active';
 
 const PartyDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
@@ -40,7 +41,17 @@ const PartyDashboard = () => {
                                 choice === 'manageMembers' ? 'bg-hoverPurple' : null
                             }`}
                         >
-                            <img src={team} alt="" /> Member
+                            <img src={team} alt="" /> Manage Members
+                        </button>
+                        <button
+                            onClick={() => {
+                                setChoice('activeMembers');
+                            }}
+                            className={`flex gap-2 text-[1.125rem] py-[1.62rem] justify-center w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'activeMembers' ? 'bg-hoverPurple' : null
+                            }`}
+                        >
+                            <img src={team} alt="" /> Active Members
                         </button>
                         <button
                             onClick={() => {
@@ -74,6 +85,11 @@ const PartyDashboard = () => {
                     {choice === 'manageMembers' ? (
                         <div className="ml-[20rem]">
                             <ManageMembers />
+                        </div>
+                    ) : null}
+                    {choice === 'activeMembers' ? (
+                        <div className="ml-[20rem]">
+                            <ActiveMembers />
                         </div>
                     ) : null}
                     {choice === 'results' ? (

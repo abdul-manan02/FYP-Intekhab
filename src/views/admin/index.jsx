@@ -66,7 +66,7 @@ const AdminDashboard = () => {
                                 setChoice('participation');
                             }}
                             className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
-                                choice === 'election' ? 'bg-hoverPurple' : null
+                                choice === 'participation' ? 'bg-hoverPurple' : null
                             }`}
                         >
                             <p>

@@ -33,5 +33,14 @@ export default async function fetcher(url, method, payload, token) {
         options.body = JSON.stringify(payload);
     }
 
-    return await fetch(url, options);
+    // return await fetch(url, options);
+
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+        const errorMessage = `Request failed with status ${response.status}`;
+        throw new Error(errorMessage);
+    }
+
+    return response;
 }

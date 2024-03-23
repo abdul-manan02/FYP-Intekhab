@@ -1,4 +1,3 @@
-
 import { PARTY_BASE_URL } from '../../util/constants';
 import fetcher from '../../util/fetcher';
 
@@ -8,8 +7,7 @@ export async function partyLogin(payload) {
         const response = await fetcher(url, 'POST', payload);
         return response.json();
     } catch (error) {
-        console.log('here', error.message);
-        return error;
+        throw new Error(error.message); // Throw the error here
     }
 }
 

@@ -1,28 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { candidateRequestAtom } from '../../../../store/admin';
 import { useAtom } from 'jotai';
 import { memberRequestAtom } from '../../../../store/party';
+import { getVoterCandidateById } from '../../../../services/voterCandidate/getVoterCandidate';
+import toast from 'react-hot-toast';
+import { CircularProgress } from '@mui/material';
+import { updatePartyApproval } from '../../../../services/party/memberService';
 
 const MemberRequestDetail = ({ opened, setOpened }) => {
+    const party = JSON.parse(localStorage.getItem('partyToken'));
     const [selectedMemberRequest] = useAtom(memberRequestAtom);
+    const [voterData, setVoterData] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const fetchVoter = async () => {
+        try {
+            setLoading(true);
+            const res = await getVoterCandidateById(selectedMemberRequest.memberId, party.token);
+            console.log('res', res);
+            setVoterData(res);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            toast.error('Failed to fetch member information');
+        }
+    };
+
+    useEffect(() => {
+        if (opened) {
+            fetchVoter();
+        }
+    }, [selectedMemberRequest]);
 
     const handleClose = () => {
         setOpened(false);
     };
 
-    // const handleAccept = async () => {
-    //     try {
-    //         const requestBody = {
-    //             name: selectedPartyRequest.name,
-    //             status: 'Accepted',
-    //         };
-    //         const response = await acceptRequest(selectedPartyRequest._id, requestBody);
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // };
+    const handleAccept = async (status) => {
+        try {
+            const requestBody = {
+                status: status,
+            };
+
+            const response = await updatePartyApproval(party.token, requestBody, selectedMemberRequest._id);
+            console.log(response);
+            toast.success('Member request accepted successfully!');
+        } catch (error) {
+            toast.error('Failed to accept member request');
+        }
+    };
 
     const convertToReadableTime = (submitTime) => {
         const date = new Date(submitTime);
@@ -53,29 +79,43 @@ const MemberRequestDetail = ({ opened, setOpened }) => {
 
     return (
         <Dialog open={opened} onClose={handleClose}>
-            <DialogTitle>Candidate approval request</DialogTitle>
-            <button onClick={() => console.log(selectedMemberRequest)}>test</button>
-            <DialogContent className="w-[30rem]">
-                <p className="font-bold">Candidate Id:</p>
-                <p>{selectedMemberRequest.memberId}</p>
-                <p className="font-bold">Request status:</p>
-                <p>{selectedMemberRequest.status}</p>
-                <p className="font-bold">Submit Time</p>
-                <p>{convertToReadableTime(selectedMemberRequest.submitTime)}</p>
-                <p className="font-bold">Document</p>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        handleViewDocument(selectedMemberRequest?.proof);
-                    }}
-                >
-                    View Document
-                </Button>
-            </DialogContent>
-            <DialogActions style={{ paddingTop: '5em' }}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleClose}>Approve</Button>
-            </DialogActions>
+            {voterData ? (
+                <>
+                    <DialogTitle>Candidate approval request</DialogTitle>
+                    <button onClick={() => console.log(selectedMemberRequest)}>test</button>
+                    <DialogContent className="w-[30rem]">
+                        <p className="mt-4 font-bold">Candidate Id:</p>
+                        <p>{selectedMemberRequest.memberId}</p>
+                        <p className="mt-4 font-bold">Request status:</p>
+                        <p>{selectedMemberRequest.status}</p>
+                        <p className="mt-4 font-bold">Submit Time</p>
+                        <p>{convertToReadableTime(selectedMemberRequest.submitTime)}</p>
+                        <p className="mt-4 font-bold">Candidate Picture</p>
+                        <img src={voterData.CitizenData.images[0].url} alt="Candidate Picture" className="rounded-3xl " />
+                        <p className="mt-4 font-bold">Document</p>
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                handleViewDocument(selectedMemberRequest?.proof);
+                            }}
+                        >
+                            View Document
+                        </Button>
+                    </DialogContent>
+                    {selectedMemberRequest.status !== 'Accepted' && selectedMemberRequest.status !== 'Rejected' ? (
+                        <DialogActions style={{ paddingTop: '2rem' }}>
+                            <Button onClick={() => handleAccept('Rejected')} variant="outlined">
+                                Reject
+                            </Button>
+                            <Button onClick={() => handleAccept('Accepted')} variant="contained">
+                                Approve
+                            </Button>
+                        </DialogActions>
+                    ) : null}
+                </>
+            ) : (
+                <CircularProgress size={24} />
+            )}
         </Dialog>
     );
 };

@@ -36,7 +36,7 @@ const CandidateWindow = () => {
 
             setIsLoading(false);
 
-            toast.success('Application successful and is under review by the party!');
+            toast.success('Application successful and is under review by the admin!');
         } catch (error) {
             setIsLoading(false);
             toast.error('Error applying to join a party');
@@ -66,8 +66,8 @@ const CandidateWindow = () => {
                     </div>
                 </div>
             ) : (
-                <h1 className="text-lg text-center">
-                    Your account has been granted candidate access, visit <span className="font-bold">"Party"</span> on the left bar
+                <h1 className="w-1/2 p-4 m-2 text-xl">
+                    Your account has been granted candidate access, visit <b className="text-red-500">Party</b> on the left bar
                 </h1>
             )}
         </div>

@@ -11,3 +11,33 @@ export async function getApprovalRequests(id, token) {
         console.log(error.message);
     }
 }
+
+export async function applyForParty(token, payload) {
+    try {
+        const url = `${PARTY_BASE_URL}/api/v1/party/memberApproval`;
+        const response = await fetcher(url, 'POST', payload, token);
+        return response.json();
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function updatePartyApproval(token, payload, id) {
+    try {
+        const url = `${PARTY_BASE_URL}/api/v1/party/memberApproval/id/${id}`;
+        const response = await fetcher(url, 'PUT', payload, token);
+        return response.json();
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export async function getAllMembers(id, token) {
+    try {
+        const url = `${PARTY_BASE_URL}/api/v1/party/members/${id}`;
+        const response = await fetcher(url, 'GET', null, token);
+        return response.json();
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}

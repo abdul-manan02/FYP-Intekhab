@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { partyLogin } from '../../../../services/party/loginService';
+import toast from 'react-hot-toast';
 
 const PartyLogin = () => {
     const navigate = useNavigate();
@@ -21,7 +22,6 @@ const PartyLogin = () => {
                 leaderAccountCNIC: cnic,
                 password: password,
             };
-
             const response = await partyLogin(requestBody);
             console.log(response);
 
@@ -30,8 +30,7 @@ const PartyLogin = () => {
                 navigate('/party/dashboard');
             }
         } catch (error) {
-            setError(error.message);
-            console.log('here', error.message);
+            toast.error(error.message);
         } finally {
             setIsLoading(false);
         }
@@ -77,18 +76,7 @@ const PartyLogin = () => {
                     </button>
                 </form>
 
-                <div className="w-full mt-10">
-                    <h1 className="text-xl font-bold text-center">Choose Verification Method</h1>
-                    <div className="flex items-center justify-between w-full mt-10">
-                        {' '}
-                        <button disabled className="px-4 py-2 text-xl font-bold bg-purple-300 cursor-not-allowed opacity-30">
-                            OTP
-                        </button>
-                        <button disabled className="px-4 py-2 text-xl font-bold bg-purple-300 cursor-not-allowed opacity-30">
-                            Facial Verification
-                        </button>
-                    </div>
-                </div>
+                
             </div>
         </div>
     );

@@ -31,11 +31,14 @@ const VoterRegister = () => {
                 password: password,
                 citizenDataId: candidateData._id,
                 selectedSim: selectedSim,
-                votingAddress: 'some address',
+                votingAddress: 'Permanent',
             };
 
-            // const response = await voterRegister(requestBody);
-            navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
+            console.log(requestBody)
+
+            const response = await voterRegister(requestBody);
+            navigate('/voter/login');
+            // navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
         } catch (error) {
             setError(error.message);
         } finally {
@@ -127,7 +130,7 @@ const VoterRegister = () => {
                             <label htmlFor="sim" className="mt-4 font-poppins">
                                 Sim
                             </label>
-                            <select onChange={(e) => console.log(e.target.value)} className="mt-1 rounded-lg w-full border border-[#BBB] h-12 p-2">
+                            <select onChange={(e) => setSelectedSim(e.target.value)} className="mt-1 rounded-lg w-full border border-[#BBB] h-12 p-2">
                                 <option value="" disabled hidden defaultValue>
                                     Select an option
                                 </option>
