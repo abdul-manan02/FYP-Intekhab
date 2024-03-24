@@ -11,3 +11,13 @@ export async function getAllParties() {
         console.log(error.message);
     }
 }
+
+export async function getPartyById(id, token) {
+    try {
+        const url = `${PARTY_BASE_URL}/api/v1/party/id/${id}`;
+        const response = await fetcher(url, 'GET', null, token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}

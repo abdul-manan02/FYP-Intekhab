@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PartyCard from './components/PartyCard';
-import { getAllParties } from '../../../services/party/getAllParties';
+import { getAllParties, getPartyById } from '../../../services/party/getAllParties';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Select, MenuItem } from '@mui/material';
 import { FileUploader } from 'react-drag-drop-files';
 import toast from 'react-hot-toast';
 import { CircularProgress } from '@mui/material';
 import { PARTY_BASE_URL } from '../../../util/constants';
-
+import { selectedMemberAtom } from '../../../store/admin';
+import MemberDetailInVoter from './detail';
+import { useAtom } from 'jotai';
+import { getAllMembers } from '../../../services/party/memberService';
+import CandidateCard from '../cast/components/CandidateCard';
 const Party = () => {
     const voter = JSON.parse(localStorage.getItem('voter-candidate'));
     const [selectedParty, setSelectedParty] = useState('');
 
     const [parties, setParties] = useState([]);
+    const [party, setParty] = useState(null);
 
     const fileTypes = ['PDF'];
 
@@ -39,6 +44,21 @@ const Party = () => {
         }
     }, []);
 
+    const fetchPartyDetail = async () => {
+        try {
+            const res = await getPartyById(voter.account.party, voter.token);
+            setParty(res.party);
+        } catch (error) {
+            toast.error('Failed to fetch Party information');
+        }
+    };
+
+    useEffect(() => {
+        if (voter.account.party !== null) {
+            fetchPartyDetail();
+        }
+    }, []);
+
     const handleApply = async () => {
         if (!selectedParty || !voter.account._id || !file) {
             toast.error('All fields are required');
@@ -60,8 +80,6 @@ const Party = () => {
                 },
             };
 
-            console.log('here');
-
             const response = await fetch(`${PARTY_BASE_URL}/api/v1/party/memberApproval`, requestOptions);
             const data = await response.json();
 
@@ -74,16 +92,49 @@ const Party = () => {
         }
     };
 
-    const ar = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const [members, setMembers] = useState([]);
+    const [, setSelectedMember] = useAtom(selectedMemberAtom);
+    const [opened, setOpened] = useState(false);
+
+    const fetchMembers = async () => {
+        try {
+            const res = await getAllMembers(voter.account.party, voter.token);
+            console.log('res', res);
+            setMembers(res);
+        } catch (error) {
+            toast.error('Failed to fetch party members');
+        }
+    };
+
+    useEffect(() => {
+        if (voter.account.party !== null) {
+            fetchMembers();
+        }
+    }, []);
+
+    const func = (member) => {
+        setSelectedMember(member);
+    };
+
     return (
         <div>
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Party</h1>
-            {voter.account.isCandidate && voter.account.party !== null ? (
+            {voter.account.isCandidate && voter.account.party !== null && party ? (
                 <div className="p-4 m-2">
-                    <div className="flex flex-wrap gap-4">
-                        {ar.map((item) => {
-                            return <PartyCard key={item} />;
-                        })}
+                    <MemberDetailInVoter opened={opened} setOpened={setOpened} />
+                    <div className="flex flex-col items-center justify-center gap-4 mb-8">
+                        <img src={party.logo} alt="Party Logo" height={150} width={150} />
+                        <p className="text-3xl font-bold">{party.name}</p>
+                        <p className="text-xl font-semibold">{party.memberIDs.length} Member(s)</p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
+                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
                     </div>
                 </div>
             ) : voter.account.isCandidate && voter.account.party === null ? (

@@ -56,23 +56,34 @@ const CandidateRequestDetail = ({ opened, setOpened, fetchRequests }) => {
     return (
         <Dialog open={opened} onClose={handleClose}>
             <DialogTitle>Candidate approval request</DialogTitle>
-            <DialogContent className="w-[30rem]">
-                <p className="font-bold">Candidate Id:</p>
-                <p>{selectedCandidateRequest.accountId}</p>
-                <p className="font-bold">Request status:</p>
-                <p>{selectedCandidateRequest.status}</p>
-                <p className="font-bold">Submit Time</p>
-                <p>{convertToReadableTime(selectedCandidateRequest.submitTime)}</p>
-                <p className="font-bold">Document</p>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        handleViewDocument(selectedCandidateRequest?.proof);
-                    }}
-                >
-                    View Document
-                </Button>
-            </DialogContent>
+            {selectedCandidateRequest && selectedCandidateRequest.voterCandidate && selectedCandidateRequest.voterCandidate.CitizenData && (
+                <DialogContent className="w-[30rem]">
+                    <p className="mt-4 font-bold">Candidate Name:</p>
+                    <p>{selectedCandidateRequest.voterCandidate.CitizenData.name}</p>
+                    <p className="mt-4 font-bold">Request status:</p>
+                    <p>{selectedCandidateRequest.status}</p>
+                    <p className="mt-4 font-bold">Submit Time</p>
+                    <p>{convertToReadableTime(selectedCandidateRequest.submitTime)}</p>
+                    <p className="mt-4 font-bold">Picture</p>
+                    <div className="rounded-full ">
+                        <img
+                            src={selectedCandidateRequest.voterCandidate.CitizenData.images[0].url}
+                            className="rounded-3xl"
+                            alt="Candidate Picture"
+                        />
+                    </div>
+                    <p className="mt-4 font-bold">Document</p>
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            handleViewDocument(selectedCandidateRequest?.proof);
+                        }}
+                    >
+                        View Document
+                    </Button>
+                </DialogContent>
+            )}
+
             {selectedCandidateRequest.status !== 'Accepted' && selectedCandidateRequest.status !== 'Rejected' ? (
                 <DialogActions style={{ paddingTop: '5em' }}>
                     <Button onClick={() => handleAccept('Rejected')} variant="outlined">

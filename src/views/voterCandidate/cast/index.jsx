@@ -1,15 +1,20 @@
 import NA from './NA';
 import PP from './PP';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyTime from './components/Timer';
 import { useSDK } from '@metamask/sdk-react';
+import { getElectionForVoter } from '../../../services/voterCandidate/electionService';
+import toast from 'react-hot-toast';
 
 const CastVote = () => {
+    const voter = JSON.parse(localStorage.getItem('voter-candidate'));
     const [choice, setChoice] = useState('NA');
 
     const handleChoice = (value) => {
         setChoice(value);
     };
+
+    const [general, setGeneral] = useState(null);
 
     const [account, setAccount] = useState();
     const { sdk, connected, connecting, provider, chainId } = useSDK();
@@ -23,6 +28,21 @@ const CastVote = () => {
             console.warn('failed to connect..', err);
         }
     };
+
+    const fetchElections = async () => {
+        try {
+            const res = await getElectionForVoter(voter.account._id, voter.token);
+            console.log('elect', res);
+        } catch (error) {
+            toast.error('Failed to fetch election information');
+        }
+    };
+
+    useEffect(() => {
+        if (voter.account) {
+            fetchElections();
+        }
+    }, []);
 
     return (
         <>

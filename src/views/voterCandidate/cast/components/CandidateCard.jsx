@@ -1,30 +1,25 @@
-import food from '../../../../assets/icons/food.jpg';
-
-function CandidateCard({name, party, picture}) {
+function CandidateCard({ data, func, setOpened }) {
+    const party = JSON.parse(localStorage.getItem('partyToken'));
     return (
-        <div className="relative flex flex-col flex-grow overflow-hidden text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">
-            <div className="relative h-56 mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
-                <img
-                    src={food}
-                    alt="img-blur-shadow"
-                    layout="fill"
-                />
+        <div className="relative flex flex-col overflow-hidden text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+            <div className="relative w-auto h-40 mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+                <img src={data.CitizenData.images[0].url} alt="Candiate Image" className="object-cover w-full h-full" />
             </div>
-            <div className="p-6">
+            <div className="px-6 py-3">
                 <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    Imran Khan
+                    {data.CitizenData.name}
                 </h5>
-                <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-inherit">
-                    PTI
-                </p>
+                <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-inherit">{party.party.name}</p>
             </div>
-            <div className="p-6 pt-0">
+            <div className="flex items-end justify-end p-6 pt-0">
                 <button
-                    className="select-none rounded-lg bg-themePurple py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                    type="button"
-                    data-ripple-light="true"
+                    onClick={() => {
+                        func(data);
+                        setOpened(true);
+                    }}
+                    className="px-4 py-2 text-white transition delay-75 bg-purple-500 rounded-md hover:bg-purple-400"
                 >
-                    Vote
+                    View Details
                 </button>
             </div>
         </div>

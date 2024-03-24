@@ -13,6 +13,7 @@ import ActiveMembers from './active';
 
 const PartyDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
+    const party = JSON.parse(localStorage.getItem('partyToken'));
 
     return (
         <div>
@@ -22,6 +23,9 @@ const PartyDashboard = () => {
                     <p className=" text-themePurple text-[2.25rem] font-[500] flex gap-2 ml-8 mt-8">
                         <img src={logo} alt="" /> Entekhaab
                     </p>
+                    <div className='flex items-center justify-center mt-5'>
+                        <img src={party.party.logo} height={60} width={60} alt="Party Image" />
+                    </div>
                     <div className="flex flex-col items-center pt-[5rem] ">
                         <button
                             onClick={() => {

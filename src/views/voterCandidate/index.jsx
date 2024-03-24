@@ -14,6 +14,7 @@ import CastVote from './cast';
 import Party from './party';
 import Profile from './profile';
 import VerifyVote from './verify';
+import ElectionVoter from './election';
 
 const CandidateDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
@@ -107,6 +108,19 @@ const CandidateDashboard = () => {
                             </p>
                             <p>Candidate</p>
                         </button>
+                        <button
+                            onClick={() => {
+                                setChoice('election');
+                            }}
+                            className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'election' ? 'bg-hoverPurple' : null
+                            }`}
+                        >
+                            <p>
+                                <IoPerson />
+                            </p>
+                            <p>Election</p>
+                        </button>
                     </div>
                 </div>
 
@@ -140,6 +154,11 @@ const CandidateDashboard = () => {
                     {choice === 'candidate' ? (
                         <div className="ml-[20rem]">
                             <CandidateWindow />
+                        </div>
+                    ) : null}
+                    {choice === 'election' ? (
+                        <div className="ml-[20rem]">
+                            <ElectionVoter />
                         </div>
                     ) : null}
                 </div>

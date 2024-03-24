@@ -21,6 +21,7 @@ const ScheduledElection = () => {
     const fetchRequests = async () => {
         try {
             const response = await getCreatedElections();
+            console.log('res', response)
             if (response && response.length > 0) {
                 setRequests(response);
             }

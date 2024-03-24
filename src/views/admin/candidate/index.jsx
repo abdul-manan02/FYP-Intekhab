@@ -34,7 +34,7 @@ const CandidateApproval = () => {
                 console.log('in here', request);
                 return {
                     id: request._id,
-                    candidate: request.accountId,
+                    candidate: request.voterCandidate.CitizenData.name,
                     status: request.status,
                 };
             });
