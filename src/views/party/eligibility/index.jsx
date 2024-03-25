@@ -1,30 +1,79 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { IconButton, Snackbar, Alert } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { StripedDataGrid } from '../../../components/StripedDataGrid';
+import { getParticipationRequests } from '../../../services/party/participation';
+import toast from 'react-hot-toast';
+import { approvalRequestAtom } from '../../../store/party';
+import { useAtom } from 'jotai';
+import dayjs from 'dayjs';
+import {Button} from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 
 const CandidateEligibility = () => {
-    const [showSnackbar, setShowSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const party = JSON.parse(localStorage.getItem('partyToken'));
+    const [requests, setRequests] = useState(null);
 
-    const rows = [
-        { id: 1, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-        { id: 2, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-        { id: 3, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-        { id: 4, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-        { id: 5, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-        { id: 6, name: 'Bilal Khan', cnic: '37405-4700448-1', electionName: 'General-Elections-2023', constituency: 'NA-56' },
-    ];
+    const fetchRequests = async () => {
+        try {
+            const res = await getParticipationRequests(party.party._id, party.token);
+            console.log('res', res.results);
+            if (res.results && res.results.length > 0) {
+                setRequests(res.results);
+            }
+        } catch (error) {
+            toast.error('Failed to fetch participation requests');
+        }
+    };
+
+    useEffect(() => {
+        if (party && party?.party) {
+            fetchRequests();
+        }
+    }, []);
+
+    const [opened, setOpened] = useState(false);
+
+    const [rows, setRows] = useState([]);
+
+    const [, setApprovalRequest] = useAtom(approvalRequestAtom);
+
+    const handleSelectedRequest = (id) => {
+        const filteredRequest = requests.find((item) => item._id.toString() === id.toString());
+        setApprovalRequest(filteredRequest);
+        setOpened(true);
+    };
+
+    function convertToReadableFormat(dateString) {
+        return dayjs(dateString).format('MMMM D, YYYY [at] HH:mm:ss');
+    }
+
+    const prepareRows = (requests) => {
+        const data =
+            requests &&
+            requests.length > 0 &&
+            requests.map((request) => {
+                console.log(request);
+                return {
+                    id: request._id,
+                    name: request?.voterCandidate?.CitizenData?.name,
+                    cnic: request?.voterCandidate?.CitizenData?.cnic,
+                };
+            });
+
+        setRows(data);
+    };
+
+    useEffect(() => {
+        if (requests && requests.length > 0) {
+            prepareRows(requests);
+        }
+    }, [requests]);
 
     const columns = [
         { field: 'name', headerName: 'Name', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white' },
         { field: 'cnic', headerName: 'CNIC', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white' },
-        { field: 'electionName', headerName: 'Election Name', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white' },
-        { field: 'constituency', headerName: 'Constituency', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'bg-white' },
         {
-            field: 'actions',
-            headerName: 'Actions',
+            field: 'detail',
+            headerName: 'Detail',
             flex: 1,
             align: 'center',
             headerAlign: 'center',
@@ -32,68 +81,29 @@ const CandidateEligibility = () => {
             renderCell: (params) => {
                 return (
                     <div className="flex">
-                        <IconButton onClick={() => handleAction('Check')}>
-                            <CheckCircleIcon style={{ color: 'green' }} />
-                        </IconButton>
-                        <IconButton onClick={() => handleAction('Cancel')}>
-                            <CancelIcon style={{ color: 'red' }} />
-                        </IconButton>
+                        <Button variant="contained" color="primary" startIcon={<OpenInNew />} onClick={() => handleSelectedRequest(params.row.id)}>
+                            View Details
+                        </Button>
                     </div>
                 );
             },
         },
     ];
 
-    const handleAction = (action) => {
-        let message;
-
-        if (action === 'Check') {
-            message = 'Acceptance confirmation sent successfully!';
-        } else if (action === 'Cancel') {
-            message = 'Rejection confirmation sent succssfully!';
-        }
-
-        setSnackbarMessage(message);
-        setShowSnackbar(true);
-    };
-
-    const closeSnackbar = () => {
-        setShowSnackbar(false);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        closeSnackbar();
-    };
-
-    const vertical = 'top';
-    const horizontal = 'center';
-
     return (
         <div>
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Evaluate Candidate Eligibility
             </h1>
-            <div style={{ margin: '0.5rem' }}>
+            {rows && rows.length > 0 ? (
                 <StripedDataGrid
                     rows={rows}
                     columns={columns}
                     getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
                 />
-            </div>
-            <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
-                open={showSnackbar}
-                autoHideDuration={3000}
-                onClose={closeSnackbar}
-                message={snackbarMessage}
-            >
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
+            ) : (
+                <p className="p-4 m-2 text-xl font-bold">No elections scheduled at this time.</p>
+            )}
         </div>
     );
 };

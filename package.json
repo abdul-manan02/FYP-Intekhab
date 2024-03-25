@@ -49,7 +49,8 @@
         "react-toastify": "^10.0.3",
         "react-webcam": "^7.2.0",
         "typeface-poppins": "^1.1.13",
-        "web-vitals": "^3.5.2"
+        "web-vitals": "^3.5.2",
+        "web3": "^4.6.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.15",

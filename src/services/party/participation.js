@@ -1,11 +1,12 @@
 import { PARTY_BASE_URL } from '../../util/constants';
+import fetcher from '../../util/fetcher';
 
-export async function createRequestParticipationParty(token, payload) {
+export async function getParticipationRequests(id, token) {
     try {
-        const url = `${PARTY_BASE_URL}/api/v1/party/candidateParticipation`;
-        const response = await fetcher(url, 'POST', payload, token);
+        const url = `${PARTY_BASE_URL}/api/v1/party/candidateParticipation/partyId/${id}`;
+        const response = await fetcher(url, 'GET', null, token);
         return response.json();
     } catch (error) {
-        throw new Error(error.message);
+        console.log(error.message);
     }
 }
