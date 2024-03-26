@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
-import { approvalRequestAtom } from '../../../../store/party';
-import { getVoterCandidateById } from '../../../../services/voterCandidate/getVoterCandidate';
 import toast from 'react-hot-toast';
 import { CircularProgress } from '@mui/material';
-import { updateParticipationRequest } from '../../../../services/party/participation';
+import { getVoterCandidateById } from '../../../../services/voterCandidate/getVoterCandidate';
+import { updateParticipationRequestAdmin } from '../../../../services/admin/participationElection';
+import { electionParticipationRequestAtom } from '../../../../store/admin';
 
-const CandidateEligibilityDetail = ({ opened, setOpened }) => {
-    const party = JSON.parse(localStorage.getItem('partyToken'));
-    const [selectedMemberRequest] = useAtom(approvalRequestAtom);
+const CandidateParticipationDetail = ({ opened, setOpened }) => {
+    const adminToken = JSON.parse(localStorage.getItem('admin'));
+    const [selectedMemberRequest] = useAtom(electionParticipationRequestAtom);
     const [voterData, setVoterData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -17,7 +17,7 @@ const CandidateEligibilityDetail = ({ opened, setOpened }) => {
         try {
             setLoading(true);
             console.log('first', selectedMemberRequest.accountId);
-            const res = await getVoterCandidateById(selectedMemberRequest.accountId, party.token);
+            const res = await getVoterCandidateById(selectedMemberRequest.accountId, adminToken.token);
             console.log('res', res);
             setVoterData(res);
             setLoading(false);
@@ -43,7 +43,7 @@ const CandidateEligibilityDetail = ({ opened, setOpened }) => {
                 status: status,
             };
 
-            const response = await updateParticipationRequest(selectedMemberRequest._id, party.token, requestBody);
+            const response = await updateParticipationRequestAdmin(selectedMemberRequest._id, adminToken.token, requestBody);
             console.log(response);
             toast.success('Member request accepted successfully!');
         } catch (error) {
@@ -121,4 +121,4 @@ const CandidateEligibilityDetail = ({ opened, setOpened }) => {
     );
 };
 
-export default CandidateEligibilityDetail;
+export default CandidateParticipationDetail;

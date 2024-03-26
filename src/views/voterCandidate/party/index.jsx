@@ -129,12 +129,6 @@ const Party = () => {
                     </div>
                     <div className="grid grid-cols-1 gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
-                        {members && members.map((member, index) => <CandidateCard key={index} func={func} data={member} setOpened={setOpened} />)}
                     </div>
                 </div>
             ) : voter.account.isCandidate && voter.account.party === null ? (

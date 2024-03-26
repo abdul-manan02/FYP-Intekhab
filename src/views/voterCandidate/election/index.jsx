@@ -112,7 +112,7 @@ const ElectionVoter = () => {
 
     return (
         <div>
-            <CandidateElectionParticipationDetail opened={opened} setOpened={setOpened} partyData={partyData}/>
+            <CandidateElectionParticipationDetail opened={opened} setOpened={setOpened} partyData={partyData} />
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Election</h1>
             {voter?.account?.isCandidate ? (
                 voter?.account?.party && partyData?.name ? (
@@ -129,10 +129,10 @@ const ElectionVoter = () => {
                         )}
                     </>
                 ) : (
-                    <p>You will be applying as an independent candidate in the elections</p>
+                    <p className="p-4 m-2 text-xl font-bold">You will be applying as an independent candidate in the elections</p>
                 )
             ) : (
-                <p>Candidate access level required for this window</p>
+                <p className="p-4 m-2 text-xl font-bold">Candidate access level required for this window</p>
             )}
         </div>
     );

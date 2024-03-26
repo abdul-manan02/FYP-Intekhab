@@ -26,6 +26,7 @@ export default function ConstituencyDropDownVoterElection({ data }) {
             value={selectedConstituency}
             onChange={(e) => {
                 setSelectedConstituency(e.target.value);
+                console.log('value', e.target.value)
             }}
         >
             <MenuItem disabled value="">
@@ -33,8 +34,8 @@ export default function ConstituencyDropDownVoterElection({ data }) {
             </MenuItem>
             {data &&
                 data.map((item, index) => (
-                    <MenuItem key={index} value={`${item}`}>
-                        {item}
+                    <MenuItem key={index} value={`${item._id}`}>
+                        {item.name}
                     </MenuItem>
                 ))}
         </Select>

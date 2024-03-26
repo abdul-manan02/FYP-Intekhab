@@ -16,7 +16,8 @@ const VoterRegister = () => {
     const [isloading2, setIsloading2] = useState(false);
     const [verified, setVerified] = useState(false);
     const [candidateData, setCandidateData] = useState(null);
-    const [selectedSim, setSelectedSim] = useState(null);
+    const [selectedSim, setSelectedSim] = useState('');
+    const [selectedAddress, setSelectedAddress] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,17 +27,17 @@ const VoterRegister = () => {
             setError('');
 
             const requestBody = {
-                // name: name,
                 cnic: cnic,
                 password: password,
                 citizenDataId: candidateData._id,
                 selectedSim: selectedSim,
-                votingAddress: 'Permanent',
+                votingAddress: selectedAddress,
             };
 
-            console.log(requestBody)
+            console.log(requestBody);
 
             const response = await voterRegister(requestBody);
+            console.log(response);
             navigate('/voter/login');
             // navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
         } catch (error) {
@@ -124,6 +125,28 @@ const VoterRegister = () => {
                             {isloading2 ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 'Verify'}
                         </p>
                     </div>
+
+                    {candidateData && (
+                        <>
+                            <label htmlFor="address" className="mt-4 font-poppins">
+                                Address
+                            </label>
+                            <select
+                                onChange={(e) => setSelectedAddress(e.target.value)}
+                                className="mt-1 rounded-lg w-full border border-[#BBB] h-12 p-2"
+                            >
+                                <option value="" disabled hidden defaultValue>
+                                    Select an option
+                                </option>
+                                <option key={1} value={'Permanent'}>
+                                    {'Permanent'}
+                                </option>
+                                <option key={2} value={'Temporary'}>
+                                    {'Temporary'}
+                                </option>
+                            </select>
+                        </>
+                    )}
 
                     {candidateData && (
                         <>

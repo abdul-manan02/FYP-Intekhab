@@ -5,8 +5,9 @@ import toast from 'react-hot-toast';
 import { approvalRequestAtom } from '../../../store/party';
 import { useAtom } from 'jotai';
 import dayjs from 'dayjs';
-import {Button} from '@mui/material';
+import { Button } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
+import CandidateEligibilityDetail from './detail';
 
 const CandidateEligibility = () => {
     const party = JSON.parse(localStorage.getItem('partyToken'));
@@ -18,19 +19,27 @@ const CandidateEligibility = () => {
             console.log('res', res.results);
             if (res.results && res.results.length > 0) {
                 setRequests(res.results);
+            } else {
+                toast.error('No requests found');
             }
         } catch (error) {
-            toast.error('Failed to fetch participation requests');
+            if (error.response && error.response.status === 404) {
+                toast.error('No requests found');
+            } else {
+                toast.success('No incoming requests');
+            }
         }
     };
+
+    const [opened, setOpened] = useState(false);
 
     useEffect(() => {
         if (party && party?.party) {
             fetchRequests();
         }
-    }, []);
+    }, [opened]);
 
-    const [opened, setOpened] = useState(false);
+    
 
     const [rows, setRows] = useState([]);
 
@@ -92,6 +101,7 @@ const CandidateEligibility = () => {
 
     return (
         <div>
+            <CandidateEligibilityDetail opened={opened} setOpened={setOpened} />
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">
                 Evaluate Candidate Eligibility
             </h1>
@@ -102,7 +112,7 @@ const CandidateEligibility = () => {
                     getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'odd' : 'even')}
                 />
             ) : (
-                <p className="p-4 m-2 text-xl font-bold">No elections scheduled at this time.</p>
+                <p className="p-4 m-2 text-xl font-bold">No requests at this time.</p>
             )}
         </div>
     );

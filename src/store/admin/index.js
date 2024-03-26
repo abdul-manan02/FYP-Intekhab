@@ -9,5 +9,6 @@ export const scheduledDetailAtom = atom({});
 export const selectedMemberAtom = atom({});
 export const scheduledDetailParticipationAtom = atom({});
 export const constituencyAtomVoterElection = atom([]);
+export const electionParticipationRequestAtom = atom([]);
 
 

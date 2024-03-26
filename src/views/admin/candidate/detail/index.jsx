@@ -60,6 +60,8 @@ const CandidateRequestDetail = ({ opened, setOpened, fetchRequests }) => {
                 <DialogContent className="w-[30rem]">
                     <p className="mt-4 font-bold">Candidate Name:</p>
                     <p>{selectedCandidateRequest.voterCandidate.CitizenData.name}</p>
+                    <p className="mt-4 font-bold">Cnic:</p>
+                    <p>{selectedCandidateRequest.voterCandidate.CitizenData.cnic}</p>
                     <p className="mt-4 font-bold">Request status:</p>
                     <p>{selectedCandidateRequest.status}</p>
                     <p className="mt-4 font-bold">Submit Time</p>
