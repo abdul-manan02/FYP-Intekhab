@@ -20,6 +20,7 @@ const ElectionVoter = () => {
     const fetchElections = async () => {
         try {
             const res = await getElectionForVoter(voter.account._id, voter.token);
+            console.log('res', res)
             setElectionData(res);
             if (res && res.length > 0) {
                 setRequests(res);

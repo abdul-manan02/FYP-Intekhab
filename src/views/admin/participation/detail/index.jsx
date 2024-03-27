@@ -83,7 +83,6 @@ const CandidateParticipationDetail = ({ opened, setOpened }) => {
             {selectedMemberRequest && voterData && voterData.CitizenData ? (
                 <>
                     <DialogTitle>Candidate election participation request</DialogTitle>
-                    <button onClick={() => console.log(selectedMemberRequest)}>test</button>
                     <DialogContent className="w-[30rem]">
                         <p className="mt-4 font-bold">Candidate Id:</p>
                         <p>{selectedMemberRequest.memberId}</p>

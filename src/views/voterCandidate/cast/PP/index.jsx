@@ -1,14 +1,22 @@
 import React from 'react';
-import CandidateCard from '../components/CandidateCard';
+import CandidateCardVote from '../components/CandidateCardVoter';
 
-const PP = () => {
-    const ar = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const PP = ({ PPdata }) => {
     return (
         <div className="p-4 m-2">
-            <div className="flex flex-wrap gap-4">
-                {ar.map((item) => {
-                    return <CandidateCard key={item} />;
-                })}
+            <button onClick={() => console.log(PPdata)}>test</button>
+            <div className="grid grid-cols-1 gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {PPdata &&
+                    PPdata.map((election) => {
+                        return (
+                            <div key={election.electionType}>
+                                <h1>{election.electionType}</h1>
+                                {election.candidates.map((candidate) => {
+                                    return <CandidateCardVote key={candidate.id} data={candidate} />;
+                                })}
+                            </div>
+                        );
+                    })}
             </div>
         </div>
     );

@@ -2,11 +2,8 @@ import NA from './NA';
 import PP from './PP';
 import { useEffect, useState } from 'react';
 import MyTime from './components/Timer';
-import { useSDK } from '@metamask/sdk-react';
-import { getElectionForVoter } from '../../../services/voterCandidate/electionService';
+import { getElectionForVoterStarted } from '../../../services/voterCandidate/electionService';
 import toast from 'react-hot-toast';
-import Web3 from 'web3';
-import { EVOTING_ADDRESS, EVOTING_ABI } from '../../../../config';
 
 const CastVote = () => {
     const voter = JSON.parse(localStorage.getItem('voter-candidate'));
@@ -17,42 +14,32 @@ const CastVote = () => {
     };
 
     const [general, setGeneral] = useState(null);
-
-    const [account, setAccount] = useState();
-    const { sdk, connected, connecting, provider, chainId } = useSDK();
-
-    const connect = async () => {
-        try {
-            const accounts = await sdk?.connect();
-            setAccount(accounts?.[0]);
-            console.log('got', accounts);
-        } catch (err) {
-            console.warn('failed to connect..', err);
-        }
-    };
-
-    // const handleTest = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         await window.ethereum.request({ method: 'eth_requestAccounts' });
-    //         const web3 = new Web3(window.ethereum);
-    //         const accounts = await web3.eth.getAccounts();
-    //         console.log('Selected account:', accounts[0]);
-    //         const votingContract = new web3.eth.Contract(EVOTING_ABI, EVOTING_ADDRESS);
-    //         console.log('voting', votingContract.methods);
-    //         // await simpleStorage.methods.storeHardcodedValue().send({ from: accounts[0] });
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+    const [provincial, setProvincial] = useState(null);
 
     const fetchElections = async () => {
         try {
-            const res = await getElectionForVoter(voter.account._id, voter.token);
+            const res = await getElectionForVoterStarted(voter.account._id, voter.token);
             console.log('elect', res);
+            prepareData(res);
         } catch (error) {
             toast.error('Failed to fetch election information');
         }
+    };
+
+    const prepareData = (res) => {
+        let NA = [];
+        let PP = [];
+
+        res.map((election) => {
+            if (election.electionType === 'General Elections') {
+                NA.push(election);
+            } else if (election.electionType === 'By Elections') {
+                PP.push(election);
+            }
+        });
+
+        setGeneral(NA);
+        setProvincial(PP);
     };
 
     useEffect(() => {
@@ -61,26 +48,7 @@ const CastVote = () => {
         }
     }, []);
 
-    // 0x504c5722897DF68B10F44ac6d90A7196B5ddCc30
-
     return (
-        // <>
-        //     <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Cast Vote</h1>
-        //     <button style={{ padding: 10, margin: 10 }} onClick={connect}>
-        //         Connect
-        //     </button>
-        //     {connected && (
-        //         <div>
-        //             <>
-        //                 {chainId && `Connected chain: ${chainId}`}
-        //                 <p></p>
-        //                 {account && `Connected account: ${account}`}
-        //             </>
-        //         </div>
-        //     )}
-        //     <button onClick={handleTest}>test</button>
-        // </>
-
         <div>
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Cast Vote</h1>
             <MyTime />
@@ -103,7 +71,7 @@ const CastVote = () => {
                 </button>
             </div>
 
-            {choice === 'NA' ? <NA /> : <PP />}
+            {choice === 'NA' ? <NA NAdata={general} /> : <PP PPdata={provincial} />}
         </div>
     );
 };

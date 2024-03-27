@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import CandidateCard from '../components/CandidateCard';
-import { getAllParties } from '../../../../services/party/getAllParties';
-import toast from 'react-hot-toast';
-import Loader from '../../../../components/Loader';
+import React from 'react';
+import CandidateCardVote from '../components/CandidateCardVoter';
 
-const NA = () => {
-    const [parties, setParties] = useState([]);
-
-    const fetchParties = async () => {
-        try {
-            const response = await getAllParties();
-            setParties(response);
-        } catch (error) {
-            toast.error('Failed to get parties');
-        }
-    };
-
-    useEffect(() => {
-        fetchParties();
-    }, []);
-
+const NA = ({ NAdata }) => {
     return (
         <div className="p-4 m-2">
-            {parties && parties.length > 0 ? parties.map((party, index) => <CandidateCard key={index} party={party} />) : <Loader />}
+            <button onClick={() => console.log(NAdata)}>test</button>
+            <div className="grid grid-cols-1 gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {NAdata &&
+                    NAdata.map((election) => {
+                        return (
+                            <div key={election.electionType}>
+                                <h1>{election.electionType}</h1>
+                                {election.candidates.map((candidate) => {
+                                    return <CandidateCardVote key={candidate.id} data={candidate} />;
+                                })}
+                            </div>
+                        );
+                    })}
+            </div>
         </div>
     );
 };

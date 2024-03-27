@@ -78,16 +78,6 @@ const VoterRegister = () => {
 
     const handleCnicChange = (e) => {
         setCnic(e.target.value);
-        // const inputCnic = e.target.value;
-
-        // // Validate CNIC format using regex
-        // const cnicRegex = /^\d{5}-\d{7}-\d{1}$/;
-
-        // if (cnicRegex.test(inputCnic)) {
-        //     // Update state only if the entered CNIC format is valid
-        //     setCnic(inputCnic);
-        // }
-        // // You can add an else block to handle invalid input if needed
     };
 
     return (

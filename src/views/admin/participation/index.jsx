@@ -25,7 +25,7 @@ const ElectionParticipation = () => {
             if (error.response && error.response.status === 404) {
                 toast.error('No requests found');
             } else {
-                toast.success('No incoming requests');
+                // toast.success('No incoming requests');
             }
         }
     };
