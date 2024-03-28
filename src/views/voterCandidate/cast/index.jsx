@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import MyTime from './components/Timer';
 import { getElectionForVoterStarted } from '../../../services/voterCandidate/electionService';
 import toast from 'react-hot-toast';
+import { castVote } from '../../../services/voterCandidate/electionService';
 
 const CastVote = () => {
     const voter = JSON.parse(localStorage.getItem('voter-candidate'));
@@ -48,6 +49,19 @@ const CastVote = () => {
         }
     }, []);
 
+    const castVoteFunc = async () => {
+        try {
+            const data = {
+                name: 'bilal',
+            };
+            console.log('in here');
+            const res = await castVote(voter.account._id, data);
+            console.log('casted', res);
+        } catch (error) {
+            toast.error('Failed to cast vote, visit verify vote if you have already casted your vote');
+        }
+    };
+
     return (
         <div>
             <h1 className="rounded-tl-3xl rounded-br-3xl m-[0.5rem] p-[1rem] text-themePurple text-[2.25rem] font-[500] bg-white">Cast Vote</h1>
@@ -71,7 +85,7 @@ const CastVote = () => {
                 </button>
             </div>
 
-            {choice === 'NA' ? <NA NAdata={general} /> : <PP PPdata={provincial} />}
+            {choice === 'NA' ? <NA NAdata={general} castVoteFunc={castVoteFunc} /> : <PP PPdata={provincial} />}
         </div>
     );
 };

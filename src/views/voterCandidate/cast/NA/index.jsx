@@ -1,7 +1,7 @@
 import React from 'react';
 import CandidateCardVote from '../components/CandidateCardVoter';
 
-const NA = ({ NAdata }) => {
+const NA = ({ NAdata, castVoteFunc }) => {
     return (
         <div className="p-4 m-2">
             <button onClick={() => console.log(NAdata)}>test</button>
@@ -12,7 +12,7 @@ const NA = ({ NAdata }) => {
                             <div key={election.electionType}>
                                 <h1>{election.electionType}</h1>
                                 {election.candidates.map((candidate) => {
-                                    return <CandidateCardVote key={candidate.id} data={candidate} />;
+                                    return <CandidateCardVote castVoteFunc={castVoteFunc} key={candidate.id} data={candidate} />;
                                 })}
                             </div>
                         );

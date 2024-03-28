@@ -1,7 +1,10 @@
 import toast from 'react-hot-toast';
 
-function CandidateCardVote({ data }) {
+function CandidateCardVote({ data, castVoteFunc }) {
     const party = JSON.parse(localStorage.getItem('partyToken'));
+
+    const calculateConstituency = () => {};
+
     return (
         <div className="relative flex flex-col overflow-hidden text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
             {data?.candidateDetails?.CitizenData && (
@@ -16,12 +19,12 @@ function CandidateCardVote({ data }) {
                         <p className="block font-sans text-lg antialiased font-semibold leading-relaxed text-inherit">
                             {data.partyDetails.party.name}
                         </p>
-                        <img src={data.partyDetails.party.logo} alt="Party logo" className='h-auto mt-2 w-14'/>
+                        <img src={data.partyDetails.party.logo} alt="Party logo" className="h-auto mt-2 w-14" />
                     </div>
                     <div className="flex items-end justify-end p-6 pt-0">
                         <button
                             onClick={() => {
-                                toast.success('Voted casted');
+                                castVoteFunc();
                             }}
                             className="px-4 py-2 text-white transition delay-75 bg-purple-500 rounded-md hover:bg-purple-400"
                         >
