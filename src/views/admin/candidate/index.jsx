@@ -31,7 +31,6 @@ const CandidateApproval = () => {
         const data =
             requests.length > 0 &&
             requests.map((request) => {
-                console.log('in here', request);
                 return {
                     id: request._id,
                     candidate: request.voterCandidate.CitizenData.name,

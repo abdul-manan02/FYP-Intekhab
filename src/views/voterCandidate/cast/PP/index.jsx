@@ -4,7 +4,6 @@ import CandidateCardVote from '../components/CandidateCardVoter';
 const PP = ({ PPdata }) => {
     return (
         <div className="p-4 m-2">
-            <button onClick={() => console.log(PPdata)}>test</button>
             <div className="grid grid-cols-1 gap-2 m-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {PPdata &&
                     PPdata.map((election) => {

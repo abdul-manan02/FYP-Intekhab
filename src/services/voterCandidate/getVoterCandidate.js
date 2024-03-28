@@ -4,8 +4,6 @@ export async function getVoterCandidateById(id, token) {
     try {
         const url = `${VOTER_CANDIDATE_BASE_URL}/api/v1/voter/id/${id}`;
 
-        console.log(url);
-
         const response = await fetcher(url, 'GET', null, token);
 
         if (!response.ok) {

@@ -9,6 +9,7 @@ import CandidateApproval from './candidate';
 import PartyApproval from './party';
 import Results from '../result';
 import ElectionParticipation from './participation';
+import ConstituencyChange from './change';
 
 const AdminDashboard = () => {
     const [choice, setChoice] = useState('candidateEligibility');
@@ -76,6 +77,19 @@ const AdminDashboard = () => {
                         </button>
                         <button
                             onClick={() => {
+                                setChoice('change');
+                            }}
+                            className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
+                                choice === 'change' ? 'bg-hoverPurple' : null
+                            }`}
+                        >
+                            <p>
+                                <FaPeopleGroup />
+                            </p>
+                            <p>Contituency Change</p>
+                        </button>
+                        <button
+                            onClick={() => {
                                 setChoice('result');
                             }}
                             className={`flex items-center gap-2 text-lg py-7 pl-11 w-full transition delay-75 hover:bg-hoverPurple ${
@@ -95,6 +109,7 @@ const AdminDashboard = () => {
                     {choice === 'candidate' ? <div className="ml-[20rem]">{<CandidateApproval />}</div> : null}
                     {choice === 'election' ? <div className="ml-[20rem]">{<ManageElection />}</div> : null}
                     {choice === 'participation' ? <div className="ml-[20rem]">{<ElectionParticipation />}</div> : null}
+                    {choice === 'change' ? <div className="ml-[20rem]">{<ConstituencyChange />}</div> : null}
                     {choice === 'result' ? <div className="ml-[20rem]">{<Results />}</div> : null}
                 </div>
             </div>

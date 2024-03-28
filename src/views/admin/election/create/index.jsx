@@ -50,7 +50,6 @@ const CreateElection = () => {
 
         try {
             if (selectedElection === 'By Elections') {
-                console.log('in here', selectedConstituency)
                 const constituencyObj = constituencyData.filter((constituency) => constituency.name === selectedConstituency);
                 const requestBody = {
                     electionType: selectedElection,

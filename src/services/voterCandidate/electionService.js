@@ -48,3 +48,19 @@ export async function castVote(id, payload) {
         throw error;
     }
 }
+
+export async function getCandidatesForVoter(id, payload) {
+    try {
+        const url = `${VOTER_CANDIDATE_BASE_URL}/api/v1/voter/id/${id}/getCandidates`;
+
+        const response = await fetcher(url, 'POST', payload, null);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch election data. Status: ${response.status}`);
+        }
+
+        return response.json();
+    } catch (error) {
+        throw error;
+    }
+}

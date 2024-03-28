@@ -34,7 +34,6 @@ const ElectionParticipation = () => {
 
     useEffect(() => {
         if (adminToken) {
-            console.log('in here')
             fetchRequests();
         }
     }, [opened]);

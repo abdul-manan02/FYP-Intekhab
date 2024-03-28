@@ -68,3 +68,38 @@ export async function startElection(id) {
         console.log(error.message);
     }
 }
+
+// localhost:1002
+
+export async function changeContituency(payload) {
+    try {
+        const url = `${baseURL}/api/v1/admin/constituencyChangeRequest`;
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const response = await fetcher(url, 'POST', payload, admin.token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export async function getContituencyRequests() {
+    try {
+        const url = `${baseURL}/api/v1/admin/constituencyChangeRequest`;
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const response = await fetcher(url, 'GET', undefined, admin.token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export async function updateContituency(payload, id) {
+    try {
+        const url = `${baseURL}/api/v1/admin/constituencyChangeRequest/id/${id}`;
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        const response = await fetcher(url, 'PUT', payload, admin.token);
+        return response.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+}

@@ -5,10 +5,14 @@ import MyTime from './components/Timer';
 import { getElectionForVoterStarted } from '../../../services/voterCandidate/electionService';
 import toast from 'react-hot-toast';
 import { castVote } from '../../../services/voterCandidate/electionService';
+import { voteDataAtom } from '../../../store/voter-candidate';
+import { useAtom } from 'jotai';
+import { getVoterCandidateById } from '../../../services/voterCandidate/getVoterCandidate';
 
 const CastVote = () => {
     const voter = JSON.parse(localStorage.getItem('voter-candidate'));
     const [choice, setChoice] = useState('NA');
+    const [voteData] = useAtom(voteDataAtom);
 
     const handleChoice = (value) => {
         setChoice(value);
@@ -49,12 +53,39 @@ const CastVote = () => {
         }
     }, []);
 
-    const castVoteFunc = async () => {
+    function calculateAge(dateOfBirth) {
+        const dob = new Date(dateOfBirth);
+        const now = new Date();
+
+        // Calculate the difference in years
+        let age = now.getFullYear() - dob.getFullYear();
+
+        // Check if the birthday has occurred this year
+        const hasBirthdayOccurred = now.getMonth() > dob.getMonth() || (now.getMonth() === dob.getMonth() && now.getDate() >= dob.getDate());
+
+        // If the birthday hasn't occurred yet this year, decrement age
+        if (!hasBirthdayOccurred) {
+            age--;
+        }
+
+        return age.toString();
+    }
+
+    const castVoteFunc = async (candidate, constituency) => {
+        const voterData = await getVoterCandidateById(voter.account._id, voter.token);
+        // console.log(calculateAge(voterData.CitizenData.dateOfBirth))
         try {
             const data = {
-                name: 'bilal',
+                party: candidate.partyData.name,
+                candidateName: candidate.CitizenData.name,
+                age: calculateAge(voterData.CitizenData.dateOfBirth),
+                maritalStatus: voterData.CitizenData.maritalStatus,
+                gender: voterData.CitizenData.gender,
+                dob: voterData.CitizenData.dateOfBirth.toString(),
+                constituency: constituency.name,
+                voterId: voterData._id,
+                electionId: general[0]._id,
             };
-            console.log('in here');
             const res = await castVote(voter.account._id, data);
             console.log('casted', res);
         } catch (error) {
