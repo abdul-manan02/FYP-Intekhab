@@ -2,12 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAtom } from 'jotai';
 import { scheduledDetailAtom } from '../../../../../store/admin';
+import { startElection } from '../../../../../services/admin/electionService';
+import toast from 'react-hot-toast';
 
 const ScheduledElectionDetail = ({ opened, setOpened }) => {
     const [selectionElectionDetail] = useAtom(scheduledDetailAtom);
 
     const handleClose = () => {
         setOpened(false);
+    };
+
+    const handleStart = async () => {
+        try {
+            const res = await startElection(selectionElectionDetail._id);
+            console.log(res);
+            handleClose();
+        } catch (error) {
+            toast.error('Failed to start election');
+        }
     };
 
     const convertToReadableTime = (submitTime) => {
@@ -55,7 +67,9 @@ const ScheduledElectionDetail = ({ opened, setOpened }) => {
             </DialogContent>
             <DialogActions style={{ paddingTop: '5em' }}>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button variant='contained' onClick={handleClose}>Start Election</Button>
+                <Button variant="contained" onClick={handleStart}>
+                    Start Election
+                </Button>
             </DialogActions>
         </Dialog>
     );

@@ -13,6 +13,7 @@ const CastVote = () => {
     const voter = JSON.parse(localStorage.getItem('voter-candidate'));
     const [choice, setChoice] = useState('NA');
     const [voteData] = useAtom(voteDataAtom);
+    const [castedData, setCastedData] = useState(null);
 
     const handleChoice = (value) => {
         setChoice(value);
@@ -87,7 +88,8 @@ const CastVote = () => {
                 electionId: general[0]._id,
             };
             const res = await castVote(voter.account._id, data);
-            console.log('casted', res);
+            setCastedData(res.transactionHash);
+            toast.success('Vote casted successfully, verify your vote by visiting Verify Vote in the left bar');
         } catch (error) {
             toast.error('Failed to cast vote, visit verify vote if you have already casted your vote');
         }
@@ -116,7 +118,7 @@ const CastVote = () => {
                 </button>
             </div>
 
-            {choice === 'NA' ? <NA NAdata={general} castVoteFunc={castVoteFunc} /> : <PP PPdata={provincial} />}
+            {choice === 'NA' ? <NA NAdata={general} castVoteFunc={castVoteFunc} castedData={castedData}/> : <PP PPdata={provincial} />}
         </div>
     );
 };
