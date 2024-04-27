@@ -38,8 +38,8 @@ const VoterRegister = () => {
 
             const response = await voterRegister(requestBody);
             console.log(response);
-            navigate('/voter/login');
-            // navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
+            // navigate('/voter/login');
+            navigate('/otp', { state: { selectedSim: selectedSim, cnic: cnic } });
         } catch (error) {
             setError(error.message);
         } finally {

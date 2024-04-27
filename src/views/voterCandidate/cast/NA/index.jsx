@@ -49,9 +49,32 @@ const NA = ({ NAdata, castVoteFunc, castedData }) => {
             .catch((error) => console.error('Error copying text:', error));
     };
 
+    const [voteFlag, setVoteFlag] = useState(false);
+
+    const checkVoted = () => {
+        console.log(
+            'check',
+            NAdata[0].voter_bank.map((vote) => {
+                if (vote.voterId === voter.account._id) {
+                    if (vote.hasVoted) {
+                        setVoteFlag(true);
+                    }
+                }
+            })
+        );
+    };
+
+    useEffect(() => {
+        if (NAdata) {
+            checkVoted();
+        }
+    }, [NAdata]);
+
     return (
         <div className="p-4 m-2">
-            {castedData ? (
+            {voteFlag ? (
+                <h1>You have already voted, you can verify your vote in the left bar</h1>
+            ) : castedData ? (
                 <div className="p-4 bg-white rounded-lg">
                     <h1 className="text-lg">
                         Your vote has been casted successfully!{' '}

@@ -22,3 +22,14 @@ export async function voterRegister(payload) {
         return error;
     }
 }
+
+export async function verifyVote(payload) {
+    try {
+        const url = `${VOTER_CANDIDATE_BASE_URL}/api/v1/voter/verify`;
+        const response = await fetcher(url, 'POST', payload);
+        return response.json();
+    } catch (error) {
+        console.log('here', error.message);
+        return error;
+    }
+}

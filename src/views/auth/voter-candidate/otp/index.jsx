@@ -40,7 +40,7 @@ const OTP = () => {
         });
 
         // Send OTP to the provided phone number
-        const formatPh = '+92' + '3471623073'; // Using selected SIM directly
+        const formatPh = '+92' + '3147853906'; // Using selected SIM directly
         signInWithPhoneNumber(auth, formatPh, recaptchaVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;

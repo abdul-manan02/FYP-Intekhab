@@ -26,8 +26,8 @@ const VoterCandidateLogin = () => {
 
             if (response.token) {
                 localStorage.setItem('voter-candidate', JSON.stringify(response));
-                navigate('/voter-candidate/dashboard');
-                // navigate('/face-verification', { state: { cnic: cnic, login: 'yes' } });
+                // navigate('/voter-candidate/dashboard');
+                navigate('/face-verification', { state: { cnic: cnic, login: 'yes' } });
             }
         } catch (error) {
             setError(error.message);

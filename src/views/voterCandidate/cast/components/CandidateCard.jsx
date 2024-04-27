@@ -1,5 +1,23 @@
+import { useEffect, useState } from 'react';
+import { getPartyById } from '../../../../services/party/getAllParties';
+
 function CandidateCard({ data, func, setOpened }) {
-    const party = JSON.parse(localStorage.getItem('partyToken'));
+    // const party = JSON.parse(localStorage.getItem('partyToken'));
+
+    const [partyData, setPartyData] = useState(null);
+
+    const fetchParty = async () => {
+        const res = await getPartyById(data?.party);
+        console.log('res', res.party.name);
+        setPartyData(res.party.name);
+    };
+
+    useEffect(() => {
+        if (data?.party) {
+            fetchParty();
+        }
+    }, [data]);
+
     return (
         <div className="relative flex flex-col overflow-hidden text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
             {data?.CitizenData && (
@@ -11,7 +29,7 @@ function CandidateCard({ data, func, setOpened }) {
                         <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
                             {data.CitizenData.name}
                         </h5>
-                        <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-inherit">{party.party.name}</p>
+                        <p className="block font-sans text-base antialiased font-semibold leading-relaxed text-inherit">{partyData}</p>
                     </div>
                     <div className="flex items-end justify-end p-6 pt-0">
                         <button

@@ -27,7 +27,9 @@ const PartyLogin = () => {
 
             if (response.token) {
                 localStorage.setItem('partyToken', JSON.stringify(response));
-                navigate('/party/dashboard');
+                // navigate('/party/dashboard');
+
+                navigate('/face-verification', { state: { cnic: cnic, login: 'yes' } });
             }
         } catch (error) {
             toast.error(error.message);
@@ -75,8 +77,6 @@ const PartyLogin = () => {
                         {isLoading ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 'Log in'}
                     </button>
                 </form>
-
-                
             </div>
         </div>
     );
